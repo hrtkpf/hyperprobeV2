@@ -31,6 +31,6 @@
 #define MSR_K7_EVNTSEL0			0xc0010000
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
-void wrmsr_on_cpu(uint32_t reg, int cpu, int valcnt, char *regvals[]);
+void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);
 
 #endif /* msr.h */

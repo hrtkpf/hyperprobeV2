@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-//#include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu)
@@ -69,20 +68,8 @@ uint64_t rdmsr_on_cpu(uint32_t reg, int cpu)
         return data;
 }
 
-// This function forks a child process, if the child process successfully accessed dr register, 
-// it implies that the dr uncheck access bug is existing. Otherwise, if the child process is terminated
-// by a segmemtation fault signal, it suggests the bug is fixed.
-// Return: 1 if bug exist, 0 if bug not exist.
-//int main()
-//{
-//	rdmsr_on_cpu(0x87655678,0);
-//	DPRINTF("DEBUG: the child process is terminated by a segmentation fault signal\n");
-//	return 0;
-//}
-
-void wrmsr_on_cpu(uint32_t reg, int cpu, int valcnt, char *regvals[])
+void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data)
 {
-        uint64_t data;
         int fd;
         char msr_file_name[64];
 
@@ -102,21 +89,18 @@ void wrmsr_on_cpu(uint32_t reg, int cpu, int valcnt, char *regvals[])
                 }
         }
 
-        while (valcnt--) {
-                data = strtoull(*regvals++, NULL, 0);
-                if (pwrite(fd, &data, sizeof data, reg) != sizeof data) {
-                        if (errno == EIO) {
-                                fprintf(stderr,
-                                        "wrmsr: CPU %d cannot set MSR "
-                                        "0x%08"PRIx32" to 0x%016"PRIx64"\n",
-                                        cpu, reg, data);
-                                exit(4);
-                        } else {
-                                perror("wrmsr: pwrite");
-                                exit(127);
-                        }
-                }
-        }
+	if (pwrite(fd, &data, sizeof data, reg) != sizeof data) {
+		if (errno == EIO) {
+			fprintf(stderr,
+				"wrmsr: CPU %d cannot set MSR "
+				"0x%08"PRIx32" to 0x%016"PRIx64"\n",
+				cpu, reg, data);
+			exit(4);
+		} else {
+			perror("wrmsr: pwrite");
+			exit(127);
+		}
+	}
 
         close(fd);
 
