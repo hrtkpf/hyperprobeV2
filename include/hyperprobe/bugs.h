@@ -28,11 +28,18 @@
 #define BUG_MSR_VM_HSAVE_PA		5
 #define BUG_MSR_K7_EVNTSEL0		6
 #define BUG_DR_UNCHECK			7
+#define BUG_MSR_IA32_MC0_CTL		8
 //#define BUG_DR_NULL			8
-#define BUG_MSR_IA32_UCODE_REV		8
-#define BUG_MSR_IA32_TSC_ADJUST		9
-#define BUG_VNC_CRASH			10
-#define BUG_UNUSABLE_PRESENT 		11
+#define BUG_MSR_K7_HWCR_0x100		9
+#define BUG_MSR_EBC_FREQUENCY_ID	10
+#define BUG_MSR_IA32_BBL_CR_CTL3	11	
+#define BUG_MSR_IA32_UCODE_REV		12
+#define BUG_CPUID_SIGNATURE		13
+#define BUG_MSR_K7_HWCR_0x8		14
+#define BUG_MSR_IA32_TSC_ADJUST		15
+#define BUG_MSR_AMD64_BU_CFG2		16
+//#define BUG_VNC_CRASH			13
+//#define BUG_UNUSABLE_PRESENT 		14
 
 extern int test_msr_ia32_mcg_status();
 extern int test_msr_ia32_ebl_cr_poweron();
@@ -42,10 +49,17 @@ extern int test_msr_ia32_mc0_misc5();
 extern int test_msr_vm_hsave_pa();
 extern int test_msr_k7_evntsel0();
 extern int test_dr_uncheck();
+extern int test_msr_ia32_mc0_ctl();
 //extern int test_dr_null();
+extern int test_msr_k7_hwcr_0x100();
+extern int test_msr_ebc_frequency_id();
+extern int test_msr_ia32_bbl_cr_ctrl3();
 extern int test_msr_ia32_ucode_rev();
+extern int test_msr_k7_hwcr_0x8();
+extern int test_cpuid_signature();
 extern int test_msr_ia32_tsc_adjust();
-extern int test_vnc_crash();
-extern int test_unusable_present();
+extern int test_msr_amd64_bu_cfg2();
+//extern int test_vnc_crash();
+//extern int test_unusable_present();
 
 #endif /* bugs.h */

@@ -78,11 +78,18 @@ static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_VM_HSAVE_PA]		= test_msr_vm_hsave_pa,
         [BUG_MSR_K7_EVNTSEL0]		= test_msr_k7_evntsel0,
         [BUG_DR_UNCHECK]		= test_dr_uncheck,
+        [BUG_MSR_IA32_MC0_CTL]		= test_msr_ia32_mc0_ctl,
 //        [BUG_DR_NULL]			= test_dr_null,
-        [BUG_VNC_CRASH]			= test_vnc_crash,
+        [BUG_MSR_K7_HWCR_0x100]		= test_msr_k7_hwcr_0x100,
+        [BUG_MSR_EBC_FREQUENCY_ID]	= test_msr_ebc_frequency_id,
+        [BUG_MSR_IA32_BBL_CR_CTL3]	= test_msr_ia32_bbl_cr_ctrl3,
+//        [BUG_VNC_CRASH]		= test_vnc_crash,	// Have not verified this.
         [BUG_MSR_IA32_UCODE_REV]	= test_msr_ia32_ucode_rev,
+        [BUG_MSR_K7_HWCR_0x8]		= test_msr_k7_hwcr_0x8,
+        [BUG_CPUID_SIGNATURE]		= test_cpuid_signature,
         [BUG_MSR_IA32_TSC_ADJUST]	= test_msr_ia32_tsc_adjust,
-        [BUG_UNUSABLE_PRESENT]		= test_unusable_present,
+        [BUG_MSR_AMD64_BU_CFG2]		= test_msr_amd64_bu_cfg2,
+//        [BUG_UNUSABLE_PRESENT]		= test_unusable_present,
 };
 
 static const int kvm_max_bug_testers =
@@ -97,11 +104,18 @@ static int const kvm_bug_start[] = {
         [BUG_MSR_VM_HSAVE_PA]		= 20,
         [BUG_MSR_K7_EVNTSEL0]		= 20,
         [BUG_DR_UNCHECK]		= 20,
+        [BUG_MSR_IA32_MC0_CTL]		= 20,
 //        [BUG_DR_NULL]			= 20,
-        [BUG_VNC_CRASH]			= 39,
+        [BUG_MSR_K7_HWCR_0x100]		= 20,
+        [BUG_MSR_EBC_FREQUENCY_ID]	= 20,
+        [BUG_MSR_IA32_BBL_CR_CTL3]	= 20,
+//        [BUG_VNC_CRASH]			= 39,
         [BUG_MSR_IA32_UCODE_REV]	= 20,
+        [BUG_MSR_K7_HWCR_0x8]		= 20,
+        [BUG_CPUID_SIGNATURE]		= 25,
         [BUG_MSR_IA32_TSC_ADJUST]	= 20,
-        [BUG_UNUSABLE_PRESENT]		= 20,
+        [BUG_MSR_AMD64_BU_CFG2]		= 20,
+//        [BUG_UNUSABLE_PRESENT]		= 20,
 };
 
 static int const kvm_bug_end[] = {
@@ -113,11 +127,18 @@ static int const kvm_bug_end[] = {
         [BUG_MSR_VM_HSAVE_PA]		= 30,
         [BUG_MSR_K7_EVNTSEL0]		= 31,
         [BUG_DR_UNCHECK]		= 32,
+        [BUG_MSR_IA32_MC0_CTL]		= 34,
 //        [BUG_DR_NULL]			= 35,
-        [BUG_VNC_CRASH]			= 300,
+        [BUG_MSR_K7_HWCR_0x100]		= 35,
+        [BUG_MSR_EBC_FREQUENCY_ID]	= 37,
+        [BUG_MSR_IA32_BBL_CR_CTL3]	= 39,
+//        [BUG_VNC_CRASH]			= 300,
         [BUG_MSR_IA32_UCODE_REV]	= 302,
+        [BUG_MSR_K7_HWCR_0x8]		= 304,
+        [BUG_CPUID_SIGNATURE]		= 305,
         [BUG_MSR_IA32_TSC_ADJUST]	= 308,
-        [BUG_UNUSABLE_PRESENT]		= 311,
+        [BUG_MSR_AMD64_BU_CFG2]		= 309,
+//        [BUG_UNUSABLE_PRESENT]		= 311,
 };
 
 int main()
@@ -142,7 +163,7 @@ int main()
 		{
 			DPRINTF("ifeature is 1 while i=%d\n",i);
 			vmin=kvm_feature_start[i-1];
-//			break;
+			break;
 		}
 	}
 

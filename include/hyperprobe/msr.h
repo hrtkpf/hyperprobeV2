@@ -30,8 +30,15 @@
 #define MSR_VM_HSAVE_PA			0xc0010117
 #define MSR_K7_EVNTSEL0			0xc0010000
 
+#define MSR_IA32_MC0_CTL          	0x00000400	// Clear bit 10 of this register is not allowed until 2.6.34
+#define MSR_K7_HWCR                     0xc0010015	// Writing 0x100 to it is not supported until kernel 2.6.35
+							// Writing 0x8 to it is not supported until kernel 3.4
+#define MSR_EBC_FREQUENCY_ID            0x0000002c	// Not readable until kernel 2.6.37
+#define MSR_IA32_BBL_CR_CTL3            0x0000011e	// Not readable until kernel 2.6.39
+
 #define MSR_IA32_UCODE_REV              0x0000008b	// Not readable until kernel 3.2
 #define MSR_IA32_TSC_ADJUST             0x0000003b	// Not readable until kernel 3.8
+#define MSR_AMD64_BU_CFG2         	0xc001102a	// Not readable until kernel 3.9
 
 /* PMUv2 related MSR */
 /* Intel Core-based CPU performance counters */
@@ -49,7 +56,8 @@
 #define MSR_KVM_SYSTEM_TIME_NEW		0x4b564d01
 #define MSR_KVM_ASYNC_PF_EN		0x4b564d02
 #define MSR_KVM_STEAL_TIME		0x4b564d03
-#define MSR_P6_PERFCTR0			0x000000c1	// Used for detedting pmuv2
+#define MSR_P6_PERFCTR0			0x000000c1	// Used for detecting pmuv2
+#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b	// Used for detecting nested ept
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
 void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);
