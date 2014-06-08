@@ -33,8 +33,8 @@
 #define FEATURE_KVM_CLOCK_NEW	9
 #define FEATURE_ASYNC_PF	10
 #define FEATURE_STEAL_TIME	11
-#define FEATURE_PMU_V2		12
 //#define FEATURE_NESTED_VMX		3
+#define FEATURE_PMU_V2		12
 #define FEATURE_X2APIC	 	13
 #define FEATURE_NESTED_EPT 	14
 
@@ -50,8 +50,8 @@ extern int test_rdtscp();
 extern int test_kvm_clock_new();
 extern int test_kvm_async_pf();
 extern int test_kvm_steal_time();
-extern int test_pmu_v2();
 //extern int test_nested_vmx();
+extern int test_pmu_v2();
 extern int test_x2apic();
 extern int test_nested_ept();
 
