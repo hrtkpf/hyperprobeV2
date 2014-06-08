@@ -53,7 +53,7 @@ extern int test_msr_ia32_mc0_ctl();
 //extern int test_dr_null();
 extern int test_msr_k7_hwcr_0x100();
 extern int test_msr_ebc_frequency_id();
-extern int test_msr_ia32_bbl_cr_ctrl3();
+extern int test_msr_ia32_bbl_cr_ctl3();
 extern int test_msr_ia32_ucode_rev();
 extern int test_msr_k7_hwcr_0x8();
 extern int test_cpuid_signature();
