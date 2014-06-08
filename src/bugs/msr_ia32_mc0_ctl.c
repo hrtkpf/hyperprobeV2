@@ -29,7 +29,7 @@
 
 // Thie function use fork to create a child process. The child process tries to clear bit 10 of MSR_IA32_MC0_CTL.
 // If the register exists, it is readable. Otherwise, it is not readable.
-// Return: 1 if feature exist, 0 if not sure.
+// Return: 1 if bug exist, 0 if not sure.
 int test_msr_ia32_mc0_ctl()
 {
 	pid_t pid;

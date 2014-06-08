@@ -30,7 +30,7 @@
 
 // Thie function use fork to create a child process. The child process tries to read MSR_K7_HWCR.
 // If the register exists, it is readable. Otherwise, it is not readable.
-// Return: 1 if feature exist, 0 if not sure.
+// Return: 1 if bug exist, 0 if not sure.
 int test_msr_k7_hwcr_0x100()
 {
 	pid_t pid;

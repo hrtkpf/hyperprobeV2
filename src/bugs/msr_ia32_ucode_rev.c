@@ -31,7 +31,7 @@
 // This function trys to read MSR_IA32_UCODE_REV.
 // Before kernel 3.2, the register returns 0 upon read.
 // Since kernel 3.2, the register returns a non-zero value.
-// Return: 1 if feature exist, 0 if not sure.
+// Return: 1 if bug exist, 0 if not sure.
 int test_msr_ia32_ucode_rev()
 {
 	uint64_t data;

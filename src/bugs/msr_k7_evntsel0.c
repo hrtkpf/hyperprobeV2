@@ -24,13 +24,13 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <stdlib.h>
-#include "hyperprobe/features.h"
+#include "hyperprobe/bugs.h"
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
 
 // Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
 // If the register exists, it is readable. Otherwise, it is not readable.
-// Return: 1 if feature exist, 0 if not sure.
+// Return: 1 if bug exist, 0 if not sure.
 int test_msr_k7_evntsel0()
 {
 	pid_t pid;

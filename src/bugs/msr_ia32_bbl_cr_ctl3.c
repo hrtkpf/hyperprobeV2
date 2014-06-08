@@ -30,7 +30,7 @@
 
 // Thie function use fork to create a child process. The child process tries to read MSR_IA32_BBL_CR_CTL3.
 // If the register exists, it is readable. Otherwise, it is not readable.
-// Return: 1 if feature exist, 0 if not sure.
+// Return: 1 if bug exist, 0 if not sure.
 int test_msr_ia32_bbl_cr_ctl3()
 {
 	pid_t pid;
