@@ -1,7 +1,7 @@
 /*
- * This file implements a test case for check smp feature.
+ * This file implements a test case for check kvm signature feature.
  * Initial work by:
- *   (c) 2014 Jidong Xiao (jidong.xiao@gmail.com)
+ *   (c) 2014 Jidong Xiao (lulei.wm@gmail.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,27 +19,24 @@
  */
 
 #include <stdio.h>
-#include <unistd.h>
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
+#include "hyperprobe/cpuid.h"
 
-// Thie function use the sysconf function to get the number of processors,
-// if it is more than 1, then we assume Guest smp is supported.
-// Otherwise, we are not sure smp is supported or not.
-// Return: 1 if feature exist, 0 if not sure.
-int test_smp()
+int test_kvm_signature()
 {
-	int smp;
-	smp=sysconf( _SC_NPROCESSORS_ONLN );
-	DPRINTF("smp is %d\n",smp);
-	if(smp>1)
+	int a,b,c,d;
+	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
+	// When we set EAX=0x40000000 and run CPUID instruction, the returning value in EDX should be 0x4d, which is the ascii code of letter "M".
+	cpuid(0x40000000,a,b,c,d);
+	if(d==EDX_SIGNATURE)
 	{
-		DPRINTF("DEBUG: Feature: smp exists!\n");
+		DPRINTF("DEBUG: Feature: KVM signature exists!\n");
 		return 1;
-	}
-	else
+	}else
 	{
-		DPRINTF("DEBUG: Feature: smp does not exist!\n");
+		DPRINTF("DEBUG: Feature: KVM signature does not exist!\n");
 		return 0;
 	}
+	return 0;
 }

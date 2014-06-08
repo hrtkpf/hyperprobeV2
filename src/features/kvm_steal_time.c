@@ -31,7 +31,7 @@
 // Thie function use fork to create a child process. The child process tries to read MSR_KVM_ASYNC_PF_EN.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if feature exist, 0 if not sure.
-int test_kvm_magic()
+int test_kvm_steal_time()
 {
 	pid_t pid;
 	int status;
@@ -44,8 +44,8 @@ int test_kvm_magic()
 	if(pid==0)	//child process
 	{
 		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		rdmsr_on_cpu(MSR_KVM_API_MAGIC,0);
-		DPRINTF("DEBUG: Child: Feature Exists: MSR_KVM_API_MAGIC is readable!\n");
+		rdmsr_on_cpu(MSR_KVM_STEAL_TIME,0);
+		DPRINTF("DEBUG: Child: Feature Exists: MSR_KVM_STEAL_TIME is readable!\n");
 		exit(0);
 	}else		//parent process
 	{
@@ -55,18 +55,18 @@ int test_kvm_magic()
                         if(WEXITSTATUS(status))	// WEXITSTATUS(status) returns  the  exit  status  of the child.
                         {
                                 DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature not Exists: MSR_KVM_API_MAGIC is not readable!\n");
+                                DPRINTF("DEBUG: Parent: Feature not Exists: MSR_KVM_STEAL_TIME is not readable!\n");
                                 return 0;
                         }
                         else
                         {
                                 DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature Exists: MSR_KVM_API_MAGIC is readable!\n");
+                                DPRINTF("DEBUG: Parent: Feature Exists: MSR_KVM_STEAL_TIME is readable!\n");
                                 return 1;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
                         }
                 }else
                 {
-                        DPRINTF("DEBUG: Parent: Feature not Exists: MSR_KVM_API_MAGIC is not readable!\n");
+                        DPRINTF("DEBUG: Parent: Feature not Exists: MSR_KVM_STEAL_TIME is not readable!\n");
                         return 0;       //child process exit abnormally, the register is not readable, so the bug is existing.
                 }
                 DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);

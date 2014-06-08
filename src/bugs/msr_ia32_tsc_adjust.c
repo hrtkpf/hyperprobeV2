@@ -1,5 +1,5 @@
 /*
- * This file implements a test case for check the MSR_MCG_STATUS bug.
+ * This file implements a test case for check the MSR_IA32_TSC_ADJUST bug.
  * Initial work by:
  *   (c) 2014 Lei Lu (lulei.wm@gmail.com)
  *   (c) 2014 Jidong Xiao (jidong.xiao@gmail.com)
@@ -24,14 +24,14 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <stdlib.h>
-#include "hyperprobe/features.h"
+#include "hyperprobe/bugs.h"
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
 
-// Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
+// Thie function use fork to create a child process. The child process tries to read MSR_IA32_TSC_ADJUST.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if feature exist, 0 if not sure.
-int test_msr_ia32_mcg_status()
+int test_msr_ia32_tsc_adjust()
 {
 	pid_t pid;
 	int status;
@@ -44,33 +44,32 @@ int test_msr_ia32_mcg_status()
 	if(pid==0)	//child process
 	{
 		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		wrmsr_on_cpu(MSR_IA32_MCG_STATUS,0,0);
-		DPRINTF("DEBUG: Child: Bug Fixed: MSR_IA32_MCG_STATUS is writable!\n");
+		rdmsr_on_cpu(MSR_IA32_TSC_ADJUST,0);
+		DPRINTF("DEBUG: Child: Bug Fixed: MSR_IA32_TSC_ADJUST is readable!\n");
 		exit(0);
 	}else		//parent process
 	{
 		wait(&status);
 		if(WIFEXITED(status))
 		{
-                        if(WEXITSTATUS(status))
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Exists: MSR_IA32_MCG_STATUS is not writable!\n");
-                                return 1;
-                        }
-                        else
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Fixed: MSR_IA32_MCG_STATUS is writable!\n");
-                                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
-                        }
+			if(WEXITSTATUS(status))
+			{
+				DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
+				DPRINTF("DEBUG: Parent: Bug Exists: MSR_IA32_TSC_ADJUST is not readable!\n");
+				return 1;
+			}
+			else
+			{
+				DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
+				DPRINTF("DEBUG: Parent: Bug Fixed: MSR_IA32_TSC_ADJUST is readable!\n");
+				return 0;	//child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+			}
 		}else
 		{
-			DPRINTF("DEBUG: Parent: Bug Exists: MSR_IA32_MCG_STATUS is not writable!\n");
-			return 1;	//child process exit abnormally, the register is not writable, so the bug is existing.
+			DPRINTF("DEBUG: Parent: Bug Exists: MSR_IA32_TSC_ADJUST is not readable!\n");
+			return 1;	//child process exit abnormally, the register is not readable, so the bug is existing.
 		}
 		DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
 	}
 	return 0;
 }
-

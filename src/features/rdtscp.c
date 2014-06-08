@@ -1,8 +1,7 @@
 /*
- * This file implements a test case for check the MSR_MCG_STATUS bug.
+ * This file implements a test case for check nested virtualization feature.
  * Initial work by:
  *   (c) 2014 Lei Lu (lulei.wm@gmail.com)
- *   (c) 2014 Jidong Xiao (jidong.xiao@gmail.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -20,31 +19,23 @@
  */
 
 #include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <stdlib.h>
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
-#include "hyperprobe/msr.h"
+#include "hyperprobe/cpuid.h"
 
-// Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
-// If the register exists, it is readable. Otherwise, it is not readable.
-// Return: 1 if feature exist, 0 if not sure.
-int test_msr_ia32_perf_status()
+int test_rdtscp()
 {
-	uint64_t data;
-
-	data=rdmsr_on_cpu(MSR_IA32_PERF_STATUS,0);
-	if(data==0)
+	int a,b,c,d;
+	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
+	// When we set EAX=0x80000001 and run CPUID instruction, the returning value in bit 27 of EDX indicates whether or not rdtscp is supported.
+	cpuid(0x80000001,a,b,c,d);
+	if(d & (1<<EDX_BIT_RDTSCP))
 	{
-		DPRINTF("DEBUG: Bug Exists: MSR_IA32_PERF_STATUS returns 0 upon read!\n");
+		DPRINTF("DEBUG: Feature: rdtscp exists!\n");
 		return 1;
-	}
-	else
+	}else
 	{
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns non-zero upon read!\n");
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %llx\n",data);
+		DPRINTF("DEBUG: Feature: rdtscp not exists!\n");
 		return 0;
 	}
 	return 0;

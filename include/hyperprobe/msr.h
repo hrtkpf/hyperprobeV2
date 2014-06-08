@@ -30,6 +30,27 @@
 #define MSR_VM_HSAVE_PA			0xc0010117
 #define MSR_K7_EVNTSEL0			0xc0010000
 
+#define MSR_IA32_UCODE_REV              0x0000008b	// Not readable until kernel 3.2
+#define MSR_IA32_TSC_ADJUST             0x0000003b	// Not readable until kernel 3.8
+
+/* PMUv2 related MSR */
+/* Intel Core-based CPU performance counters */
+#define MSR_CORE_PERF_FIXED_CTR0        0x00000309
+#define MSR_CORE_PERF_FIXED_CTR1        0x0000030a
+#define MSR_CORE_PERF_FIXED_CTR2        0x0000030b
+#define MSR_CORE_PERF_FIXED_CTR_CTRL    0x0000038d
+#define MSR_CORE_PERF_GLOBAL_STATUS     0x0000038e
+#define MSR_CORE_PERF_GLOBAL_CTRL       0x0000038f
+#define MSR_CORE_PERF_GLOBAL_OVF_CTRL   0x00000390
+
+/* Custom MSRs */
+#define MSR_KVM_API_MAGIC		0x87655678
+#define MSR_KVM_WALL_CLOCK_NEW		0x4b564d00
+#define MSR_KVM_SYSTEM_TIME_NEW		0x4b564d01
+#define MSR_KVM_ASYNC_PF_EN		0x4b564d02
+#define MSR_KVM_STEAL_TIME		0x4b564d03
+#define MSR_P6_PERFCTR0			0x000000c1	// Used for detedting pmuv2
+
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
 void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);
 

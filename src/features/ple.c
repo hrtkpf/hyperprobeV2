@@ -1,8 +1,8 @@
 /*
- * This file implements a test case for check the MSR_MCG_STATUS bug.
+ * This file implements a test case for check ple feature.
  * Initial work by:
- *   (c) 2014 Lei Lu (lulei.wm@gmail.com)
  *   (c) 2014 Jidong Xiao (jidong.xiao@gmail.com)
+ *   (c) 2014 Lei Lu (lulei.wm@gmail.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -21,31 +21,40 @@
 
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-#include <stdlib.h>
+#include <inttypes.h>
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
-#include "hyperprobe/msr.h"
 
-// Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
-// If the register exists, it is readable. Otherwise, it is not readable.
+uint64_t rdtsc(){
+    unsigned int lo,hi;
+    __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+    return ((uint64_t)hi << 32) | lo;
+}
+
+// Thie function use the sysconf function to get the number of processors,
+// if it is more than 1, then we assume Guest smp is supported.
+// Otherwise, we are not sure smp is supported or not.
 // Return: 1 if feature exist, 0 if not sure.
-int test_msr_ia32_perf_status()
+int test_ple()
 {
-	uint64_t data;
+	int smp;
+	int i;
+	unsigned long long int cycles_1 = rdtsc();	
+	for(i=0;i<50;i++)
+		__asm__ __volatile__("pause\n");
+	unsigned long long int cycles_2 = rdtsc();
+	for(i=0;i<200;i++)
+		__asm__ __volatile__("pause\n");
+	unsigned long long int cycles_3 = rdtsc();
 
-	data=rdmsr_on_cpu(MSR_IA32_PERF_STATUS,0);
-	if(data==0)
-	{
-		DPRINTF("DEBUG: Bug Exists: MSR_IA32_PERF_STATUS returns 0 upon read!\n");
+	unsigned long long int t200 = cycles_2 - cycles_1;
+        unsigned long long int t50 = cycles_3 - cycles_2;
+
+        double ratio = (double)t200/(double)t50;
+	printf("ratio is %f\n");
+	
+	if(ratio>5)
 		return 1;
-	}
 	else
-	{
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns non-zero upon read!\n");
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %llx\n",data);
 		return 0;
-	}
-	return 0;
 }
