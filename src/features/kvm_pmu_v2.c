@@ -1,7 +1,9 @@
 /*
  * This file implements a test case for check pmu v2 feature.
+ * Note: To enable pmu v2, -cpu host should be passed to qemu command line, 
+ * otherwise, pmu->version will always be zero and cpuid leaf 0xa won't return
+ * pmu related information. When using -cpu host, pmu->version would be 2.
  * Initial work by:
- *   (c) 2014 Lei Lu (lulei.wm@gmail.com)
  *   (c) 2014 Jidong Xiao (jidong.xiao@gmail.com)
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -28,7 +30,17 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
 
-// Thie function use fork to create a child process. The child process tries to read MSR_P6_PERFCTR0.
+
+//To support vPMU, KVM exposes several MSRs to Guest, technically, the following registers should be accessible by the Guest.
+//#define MSR_CORE_PERF_FIXED_CTR0        0x00000309
+//#define MSR_CORE_PERF_FIXED_CTR1        0x0000030a
+//#define MSR_CORE_PERF_FIXED_CTR2        0x0000030b
+//#define MSR_CORE_PERF_FIXED_CTR_CTRL    0x0000038d
+//#define MSR_CORE_PERF_GLOBAL_STATUS     0x0000038e
+//#define MSR_CORE_PERF_GLOBAL_CTRL       0x0000038f
+//#define MSR_CORE_PERF_GLOBAL_OVF_CTRL   0x00000390
+
+// Thie function use fork to create a child process. The child process tries to read MSR_CORE_PERF_GLOBAL_CTRL.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if feature exist, 0 if not sure.
 int test_pmu_v2()
@@ -44,8 +56,8 @@ int test_pmu_v2()
 	if(pid==0)	//child process
 	{
 		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		wrmsr_on_cpu(MSR_P6_PERFCTR0,0,0);
-		DPRINTF("DEBUG: Child: Feature Exists: MSR_P6_PERFCTR0 is writable!\n");
+		rdmsr_on_cpu(MSR_CORE_PERF_GLOBAL_CTRL,0);
+		DPRINTF("DEBUG: Child: Feature Exists: MSR_CORE_PERF_GLOBAL_CTRL is readable!\n");
 		exit(0);
 	}else		//parent process
 	{
@@ -55,18 +67,18 @@ int test_pmu_v2()
                         if(WEXITSTATUS(status))	// WEXITSTATUS(status) returns  the  exit  status  of the child.
                         {
                                 DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature not Exists: MSR_P6_PERFCTR0 is not writable!\n");
+                                DPRINTF("DEBUG: Parent: Feature not Exists: MSR_CORE_PERF_GLOBAL_CTRL is not readable!\n");
                                 return 0;
                         }
                         else
                         {
                                 DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature Exists: MSR_P6_PERFCTR0 is writable!\n");
+                                DPRINTF("DEBUG: Parent: Feature Exists: MSR_CORE_PERF_GLOBAL_CTRL is readable!\n");
                                 return 1;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
                         }
                 }else
                 {
-                        DPRINTF("DEBUG: Parent: Feature not Exists: MSR_P6_PERFCTR0 is not writable!\n");
+                        DPRINTF("DEBUG: Parent: Feature not Exists: MSR_CORE_PERF_GLOBAL_CTRL is not readable!\n");
                         return 0;       //child process exit abnormally, the register is not readable, so the bug is existing.
                 }
                 DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
