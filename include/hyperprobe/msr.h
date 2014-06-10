@@ -39,6 +39,9 @@
 #define MSR_IA32_UCODE_REV              0x0000008b	// Not readable until kernel 3.2
 #define MSR_IA32_TSC_ADJUST             0x0000003b	// Not readable until kernel 3.8
 #define MSR_AMD64_BU_CFG2         	0xc001102a	// Not readable until kernel 3.9
+#define MSR_IA32_FEATURE_CONTROL        0x0000003a	// When nested=1, writable even if lock bit is set, fixed in kernel 3.12
+							// When nested=0, readable, but is is not supposed to be readable when nested=0, fixed in kernel 3.12
+#define FEATURE_CONTROL_LOCKED          (1<<0)
 
 /* PMUv2 related MSR */
 /* Intel Core-based CPU performance counters */
