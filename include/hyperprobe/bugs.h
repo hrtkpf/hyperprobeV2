@@ -41,6 +41,7 @@
 //#define BUG_VNC_CRASH			13
 //#define BUG_UNUSABLE_PRESENT 		14
 #define BUG_MSR_IA32_FEATURE_CONTROL	17
+#define BUG_MSR_IA32_APICBASE		18
 
 extern int test_msr_ia32_mcg_status();
 extern int test_msr_ia32_ebl_cr_poweron();
@@ -63,5 +64,6 @@ extern int test_msr_amd64_bu_cfg2();
 //extern int test_vnc_crash();
 //extern int test_unusable_present();
 extern int test_msr_ia32_feature_control();
+extern int test_msr_ia32_apicbase();
 
 #endif /* bugs.h */

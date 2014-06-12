@@ -43,6 +43,8 @@
 							// When nested=0, readable, but is is not supposed to be readable when nested=0, fixed in kernel 3.12
 #define FEATURE_CONTROL_LOCKED          (1<<0)
 
+#define MSR_IA32_APICBASE         	0x0000001b	// Reserve bits of this register is not writable since kernel 3.14.
+
 /* PMUv2 related MSR */
 /* Intel Core-based CPU performance counters */
 #define MSR_CORE_PERF_FIXED_CTR0        0x00000309

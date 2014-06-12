@@ -91,6 +91,7 @@ static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_AMD64_BU_CFG2]		= test_msr_amd64_bu_cfg2,
 //        [BUG_UNUSABLE_PRESENT]		= test_unusable_present,
         [BUG_MSR_IA32_FEATURE_CONTROL]	= test_msr_ia32_feature_control,
+        [BUG_MSR_IA32_APICBASE]		= test_msr_ia32_apicbase,
 };
 
 static const int kvm_max_bug_testers =
@@ -118,6 +119,7 @@ static int const kvm_bug_start[] = {
         [BUG_MSR_AMD64_BU_CFG2]		= 20,
 //        [BUG_UNUSABLE_PRESENT]		= 20,
         [BUG_MSR_IA32_FEATURE_CONTROL]	= 301,
+        [BUG_MSR_IA32_APICBASE]		= 32,
 };
 
 static int const kvm_bug_end[] = {
@@ -142,6 +144,7 @@ static int const kvm_bug_end[] = {
         [BUG_MSR_AMD64_BU_CFG2]		= 309,
 //        [BUG_UNUSABLE_PRESENT]		= 311,
         [BUG_MSR_IA32_FEATURE_CONTROL]	= 312,
+        [BUG_MSR_IA32_APICBASE]		= 314,
 };
 
 int main()
