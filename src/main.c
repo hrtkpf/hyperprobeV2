@@ -45,6 +45,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_PMU_V2]		= test_pmu_v2,
         [FEATURE_PV_EOI_EN]		= test_pv_eoi_en,
         [FEATURE_X2APIC]            	= test_x2apic,
+        [FEATURE_NESTED_PREEMPTION_TIMER] = test_nested_preemption_timer,
         [FEATURE_NESTED_EPT]            = test_nested_ept,
         [FEATURE_NESTED_EPT_2MB]        = test_nested_ept_2mb,
 };
@@ -69,6 +70,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_PMU_V2]		= 303,
         [FEATURE_PV_EOI_EN]		= 306,
         [FEATURE_X2APIC]            	= 309,
+        [FEATURE_NESTED_PREEMPTION_TIMER] = 310,
         [FEATURE_NESTED_EPT]            = 312,
         [FEATURE_NESTED_EPT_2MB]        = 313,
 };
@@ -198,7 +200,7 @@ int main()
 		}
 	}else
 	{
-		if(vmax<40)
+		if(vmax<40 || vmax<vmin)
        			printf("\n\nSomething must be wrong, since vmin=%d is greater than vmax=%d.\n",vmin,vmax);
 		else
 		{

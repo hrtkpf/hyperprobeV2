@@ -38,8 +38,9 @@
 #define FEATURE_PMU_V2		12
 #define FEATURE_PV_EOI_EN	13
 #define FEATURE_X2APIC	 	14
-#define FEATURE_NESTED_EPT 	15
-#define FEATURE_NESTED_EPT_2MB 	16
+#define FEATURE_NESTED_PREEMPTION_TIMER 	15
+#define FEATURE_NESTED_EPT 	16
+#define FEATURE_NESTED_EPT_2MB 	17
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -57,6 +58,7 @@ extern int test_kvm_steal_time();
 extern int test_pmu_v2();
 extern int test_pv_eoi_en();
 extern int test_x2apic();
+extern int test_nested_preemption_timer();
 extern int test_nested_ept();
 extern int test_nested_ept_2mb();
 

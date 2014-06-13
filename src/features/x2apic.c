@@ -25,6 +25,8 @@
 
 int test_x2apic()
 {
+	/*We cannot detect virtual x2apic now, as we don't have the hardware, so let's just return 0 now.*/
+	return 0;
 	int a,b,c,d;
 	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
 	// When we set EAX=1 and run CPUID instruction, the returning value in bit 21 of ECX indicates whether or not x2apic is supported.
