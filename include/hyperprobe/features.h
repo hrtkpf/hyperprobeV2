@@ -1,6 +1,7 @@
 /*
  * features.h: features related definitions
  * Copyright (c) 2014, Jidong Xiao (jidong.xiao@gmail.com).
+ * Copyright (c) 2014, Lei Lu (lulei.wm@gmail.com).
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -38,6 +39,7 @@
 #define FEATURE_PV_EOI_EN	13
 #define FEATURE_X2APIC	 	14
 #define FEATURE_NESTED_EPT 	15
+#define FEATURE_NESTED_EPT_2MB 	16
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -56,5 +58,6 @@ extern int test_pmu_v2();
 extern int test_pv_eoi_en();
 extern int test_x2apic();
 extern int test_nested_ept();
+extern int test_nested_ept_2mb();
 
 #endif /* features.h */

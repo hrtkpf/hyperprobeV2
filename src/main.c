@@ -46,6 +46,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_PV_EOI_EN]		= test_pv_eoi_en,
         [FEATURE_X2APIC]            	= test_x2apic,
         [FEATURE_NESTED_EPT]            = test_nested_ept,
+        [FEATURE_NESTED_EPT_2MB]        = test_nested_ept_2mb,
 };
 
 static const int kvm_max_feature_testers =
@@ -69,6 +70,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_PV_EOI_EN]		= 306,
         [FEATURE_X2APIC]            	= 309,
         [FEATURE_NESTED_EPT]            = 312,
+        [FEATURE_NESTED_EPT_2MB]        = 313,
 };
 
 static int (*const kvm_bug_testers[])() = {

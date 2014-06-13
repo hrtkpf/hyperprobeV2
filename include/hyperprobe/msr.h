@@ -63,7 +63,8 @@
 #define MSR_KVM_STEAL_TIME		0x4b564d03
 #define MSR_P6_PERFCTR0			0x000000c1	// Used for detecting pmuv2
 #define MSR_KVM_PV_EOI_EN		0x4b564d04	// Used for detecting paravirtualized EOI enable.
-#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b	// Used for detecting nested ept
+#define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b	// Used for detecting nested ept.
+#define MSR_IA32_VMX_EPT_VPID_CAP       0x0000048c	// Used for detecting nested ept 2MB page.
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
 void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);
