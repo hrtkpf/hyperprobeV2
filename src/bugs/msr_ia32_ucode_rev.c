@@ -44,7 +44,7 @@ int test_msr_ia32_ucode_rev()
 	}else
 	{
 		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns non-zero upon read!\n");
-                DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns %llx\n",data);
+                DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns %" PRIu64 "\n",data);
 		return 0;
 	}
 	

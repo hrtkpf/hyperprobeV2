@@ -43,6 +43,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_STEAL_TIME]		= test_kvm_steal_time,
 //        [FEATURE_NESTED]                = test_nested_vmx,
         [FEATURE_PMU_V2]		= test_pmu_v2,
+        [FEATURE_PV_EOI_EN]		= test_pv_eoi_en,
         [FEATURE_X2APIC]            	= test_x2apic,
         [FEATURE_NESTED_EPT]            = test_nested_ept,
 };
@@ -65,6 +66,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_STEAL_TIME]		= 301,
 //        [FEATURE_NESTED_VMX]            = 301,
         [FEATURE_PMU_V2]		= 303,
+        [FEATURE_PV_EOI_EN]		= 306,
         [FEATURE_X2APIC]            	= 309,
         [FEATURE_NESTED_EPT]            = 312,
 };

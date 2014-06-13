@@ -44,7 +44,7 @@ int test_msr_ia32_perf_status()
 	else
 	{
 		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns non-zero upon read!\n");
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %llx\n",data);
+		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %" PRIu64 "\n",data);
 		return 0;
 	}
 	return 0;
