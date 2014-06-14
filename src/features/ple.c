@@ -25,11 +25,13 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 
+/*
 uint64_t rdtsc(){
     unsigned int lo,hi;
     __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
     return ((uint64_t)hi << 32) | lo;
 }
+*/
 
 // Thie function use the sysconf function to get the number of processors,
 // if it is more than 1, then we assume Guest smp is supported.
@@ -37,7 +39,9 @@ uint64_t rdtsc(){
 // Return: 1 if feature exist, 0 if not sure.
 int test_ple()
 {
-	int smp;
+/*We are not able to detect PLE at this moment, so let's just return 0 and assume it is not existing.*/
+	return 0;
+/*
 	int i;
 	unsigned long long int cycles_1 = rdtsc();	
 	for(i=0;i<50;i++)
@@ -57,4 +61,5 @@ int test_ple()
 		return 1;
 	else
 		return 0;
+*/
 }

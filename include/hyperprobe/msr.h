@@ -39,6 +39,11 @@
 #define MSR_IA32_UCODE_REV              0x0000008b	// Not readable until kernel 3.2
 #define MSR_IA32_TSC_ADJUST             0x0000003b	// Not readable until kernel 3.8
 #define MSR_AMD64_BU_CFG2         	0xc001102a	// Not readable until kernel 3.9
+
+#define MSR_IA32_VMX_ENTRY_CTLS         0x00000484	// Since kernel 3.10, when nested=1, bit 0-8, bit 12 of this register should be 1.
+							// Before 3.10, this might be some other value.
+#define VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR	0x000011ff	// i.e., bit 0-8 and bit 12 is 1.
+
 #define MSR_IA32_FEATURE_CONTROL        0x0000003a	// When nested=1, writable even if lock bit is set, fixed in kernel 3.12
 							// When nested=0, readable, but is is not supposed to be readable when nested=0, fixed in kernel 3.12
 #define FEATURE_CONTROL_LOCKED          (1<<0)
