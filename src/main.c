@@ -180,7 +180,7 @@ int main()
 		{
 			DPRINTF("ifeature is 1 while i=%d\n",i);
 			vmin=kvm_feature_start[i-1];
-//			break;
+			break;
 		}
 	}
 
@@ -191,7 +191,7 @@ int main()
 		if(ibug==1)
 		{
 			vmax=kvm_bug_end[i]-1;
-//			break;
+			break;
 		}
 	}
 	if(vmin<40)

@@ -1,8 +1,11 @@
 /*
- * druncheck.c: this test case is a check against CVE-2009-3722.
- * CVE-2009-3722: in kvm code, between kernel version 2.6.20 and 2.6.31,
- * the kvm do not check privilege level when a program is accessing dr registers.
- * This may leads to a privilege escalation attack. And this has been fixed in kernel 2.6.32.
+ * virtual_dr.c: this test case is a check against the feature: debug register virtualization.
+ * This feature is only supported since kernel 2.6.30.
+ * Before kernel 2.6.30, debug inside guest is not possible.
+ * e.g., write to debug register would be ignored.
+ * Since kernel 2.6.30, write to debug registers would not be ignore, as least some bits will be kept.
+ * Therefore, to test this bit, we write a predefined value into debug register 6: dr6
+ * And read it back, in kernel newer than 2.6.30, the kept bits should be the same as what we have written.
  * Copyright (c) 2014, Jidong Xiao (jidong.xiao@gmail.com).
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -42,10 +45,9 @@ static void set_dr6(unsigned long value)
 }
 
 
-// This function forks a child process, if the child process successfully accessed dr register, 
-// it implies that the dr uncheck access bug is existing. Otherwise, if the child process is terminated
-// by a segmemtation fault signal, it suggests the bug is fixed.
-// Return: 1 if bug exist, 0 if bug not exist.
+// This function forks a child process, the child process attempts to write and then read dr register 6, 
+// if some bits are kept, we assume the feature is exists, otherwise, we think the feature might not be existing.
+// Return: 1 if feature exist, 0 if feature not exist.
 #define WRITE_TO_DR	0x123
 #define DR6_FIXED_1	0xffff0ff0
 #define DR6_VOLATILE	0x0000e00f
