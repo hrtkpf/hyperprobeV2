@@ -34,6 +34,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_KVM_SIGNATURE]         = test_kvm_signature,
         [FEATURE_EPT]                   = test_ept,
         [FEATURE_MTRR]                  = test_mtrr,
+        [FEATURE_VIRTUAL_DR]            = test_virtual_dr,
         [FEATURE_POPCNT]                = test_popcnt,
         [FEATURE_KSM]                   = test_ksm,
         [FEATURE_PLE]                   = test_ple,
@@ -59,6 +60,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_KVM_SIGNATURE]         = 25,
         [FEATURE_EPT]                   = 26,
         [FEATURE_MTRR]                  = 27,
+        [FEATURE_VIRTUAL_DR]            = 30,
         [FEATURE_POPCNT]                = 31,
         [FEATURE_KSM]                   = 32,
         [FEATURE_PLE]                   = 33,
@@ -178,7 +180,7 @@ int main()
 		{
 			DPRINTF("ifeature is 1 while i=%d\n",i);
 			vmin=kvm_feature_start[i-1];
-			break;
+//			break;
 		}
 	}
 
@@ -189,7 +191,7 @@ int main()
 		if(ibug==1)
 		{
 			vmax=kvm_bug_end[i]-1;
-			break;
+//			break;
 		}
 	}
 	if(vmin<40)
