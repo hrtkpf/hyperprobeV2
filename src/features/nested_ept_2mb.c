@@ -26,6 +26,7 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
+#include "hyperprobe/nested_vmx.h"
 
 uint64_t data;
 
@@ -34,6 +35,10 @@ uint64_t data;
 // Return: 1 if feature exist, 0 if not sure.
 int test_nested_ept_2mb()
 {
+
+	/* This feature only makes sense if nested vmx is enabled. */
+	if(!test_nested_vmx())
+		return 0;
 
         pid_t pid;
         int status;

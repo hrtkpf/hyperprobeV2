@@ -28,6 +28,7 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
 
+extern int test_nested_vmx();
 uint64_t data;
 
 // Thie function use fork to create a child process. The child process tries to read MSR_IA32_VMX_PROCBASED_CTLS2.
@@ -35,6 +36,10 @@ uint64_t data;
 // Return: 1 if feature exist, 0 if not sure.
 int test_nested_ept()
 {
+
+        /* This feature only makes sense if nested vmx is enabled. */
+        if(!test_nested_vmx())
+                return 0;
 
         pid_t pid;
         int status;
