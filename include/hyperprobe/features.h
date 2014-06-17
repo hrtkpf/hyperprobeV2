@@ -36,12 +36,14 @@
 #define FEATURE_ASYNC_PF	11
 #define FEATURE_STEAL_TIME	12
 //#define FEATURE_NESTED_VMX		3
-#define FEATURE_PMU_V2		13
-#define FEATURE_PV_EOI_EN	14
-#define FEATURE_X2APIC	 	15
-#define FEATURE_NESTED_PREEMPTION_TIMER 	16
-#define FEATURE_NESTED_EPT 	17
-#define FEATURE_NESTED_EPT_2MB 	18
+#define FEATURE_HV_APIC_ASSIST_PAGE	13
+#define FEATURE_PMU_V2		14
+#define FEATURE_PV_EOI_EN	15
+#define FEATURE_X2APIC	 	16
+#define FEATURE_NESTED_PREEMPTION_TIMER 	17
+#define FEATURE_NESTED_EPT 	18
+#define FEATURE_NESTED_EPT_2MB 	19
+#define FEATURE_HV_TIME_REF_COUNT	20
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -57,11 +59,13 @@ extern int test_kvm_clock_new();
 extern int test_kvm_async_pf();
 extern int test_kvm_steal_time();
 //extern int test_nested_vmx();
+extern int test_hv_apic_assist_page();
 extern int test_pmu_v2();
 extern int test_pv_eoi_en();
 extern int test_x2apic();
 extern int test_nested_preemption_timer();
 extern int test_nested_ept();
 extern int test_nested_ept_2mb();
+extern int test_hv_time_ref_count();
 
 #endif /* features.h */

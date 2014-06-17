@@ -26,7 +26,7 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 #include "hyperprobe/msr.h"
-#include "hyperprobe/nested_vmx.h"
+#include "hyperprobe/nested.h"
 
 uint64_t data;
 

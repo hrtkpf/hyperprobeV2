@@ -66,11 +66,14 @@
 #define MSR_KVM_SYSTEM_TIME_NEW		0x4b564d01
 #define MSR_KVM_ASYNC_PF_EN		0x4b564d02
 #define MSR_KVM_STEAL_TIME		0x4b564d03
+#define HV_X64_MSR_APIC_ASSIST_PAGE     0x40000073
 #define MSR_P6_PERFCTR0			0x000000c1	// Used for detecting pmuv2
 #define MSR_KVM_PV_EOI_EN		0x4b564d04	// Used for detecting paravirtualized EOI enable.
 #define MSR_IA32_VMX_PINBASED_CTLS      0x00000481	// Used for detecting preemption timer.
 #define MSR_IA32_VMX_PROCBASED_CTLS2    0x0000048b	// Used for detecting nested ept.
 #define MSR_IA32_VMX_EPT_VPID_CAP       0x0000048c	// Used for detecting nested ept 2MB page.
+/* MSR used to read the per-partition time reference counter */
+#define HV_X64_MSR_TIME_REF_COUNT	0x40000020
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
 void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);

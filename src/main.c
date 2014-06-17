@@ -43,12 +43,14 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_ASYNC_PF]		= test_kvm_async_pf,
         [FEATURE_STEAL_TIME]		= test_kvm_steal_time,
 //        [FEATURE_NESTED]                = test_nested_vmx,
+        [FEATURE_HV_APIC_ASSIST_PAGE]	= test_hv_apic_assist_page,
         [FEATURE_PMU_V2]		= test_pmu_v2,
         [FEATURE_PV_EOI_EN]		= test_pv_eoi_en,
         [FEATURE_X2APIC]            	= test_x2apic,
         [FEATURE_NESTED_PREEMPTION_TIMER] = test_nested_preemption_timer,
         [FEATURE_NESTED_EPT]            = test_nested_ept,
         [FEATURE_NESTED_EPT_2MB]        = test_nested_ept_2mb,
+        [FEATURE_HV_TIME_REF_COUNT]     = test_hv_time_ref_count,
 };
 
 static const int kvm_max_feature_testers =
@@ -69,12 +71,14 @@ static int const kvm_feature_start[] = {
         [FEATURE_ASYNC_PF]		= 38,
         [FEATURE_STEAL_TIME]		= 301,
 //        [FEATURE_NESTED_VMX]            = 301,
+        [FEATURE_HV_APIC_ASSIST_PAGE]	= 302,
         [FEATURE_PMU_V2]		= 303,
         [FEATURE_PV_EOI_EN]		= 306,
         [FEATURE_X2APIC]            	= 309,
         [FEATURE_NESTED_PREEMPTION_TIMER] = 310,
         [FEATURE_NESTED_EPT]            = 312,
         [FEATURE_NESTED_EPT_2MB]        = 313,
+        [FEATURE_HV_TIME_REF_COUNT]     = 314,
 };
 
 static int (*const kvm_bug_testers[])() = {

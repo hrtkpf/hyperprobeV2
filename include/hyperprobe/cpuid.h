@@ -11,5 +11,6 @@
 #define EDX_SIGNATURE	0x4d
 
 /* When EAX=80000001h */
+#define ECX_BIT_SVM	2
 #define EDX_BIT_MTRR	12
 #define EDX_BIT_RDTSCP	27
