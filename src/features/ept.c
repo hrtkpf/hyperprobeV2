@@ -28,7 +28,6 @@
 /* define constant numbers */
 #define PAGESIZE 4096
 #define NUM_OF_PAGES 1024*16
-#define SEED 123456789
 #define STEP 33
 #define EPT_THRESHOLD 800
 #define LOOP_NUMBER 3
@@ -112,11 +111,13 @@ int one_time_result()
     DPRINTF("Allocating one page...  \navg. time = %lld\n", alloc_one_page_avg );
 
     access_one_page (p, NUM_OF_PAGES, PAGESIZE*iterations);
-    DPRINTF("Allocating one byte...  \navg. time = %lld\n", access_one_byte_avg );
+    DPRINTF("Accessing one byte...  \navg. time = %lld\n", access_one_byte_avg );
     
     release_all_pages(p, NUM_OF_PAGES);
 
     double ratio = (double)alloc_one_page_avg / (double) access_one_byte_avg;
+    DPRINTF("Ratio = %f\n", ratio);
+
     if (ratio < EPT_THRESHOLD)
 	return 1;
     else
