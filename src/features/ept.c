@@ -31,9 +31,6 @@
 
 #define PAGESIZE 4096
 #define PROCESS_NUM 40000
-#define NUM_OF_PAGES 1024*16
-#define STEP 33
-#define EPT_THRESHOLD 1500
 #define LOOP_NUMBER 3
 #define EPT_THRESHOLD 150000
 
