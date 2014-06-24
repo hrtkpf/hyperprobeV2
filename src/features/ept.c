@@ -36,8 +36,8 @@
 
 /* global variables */
 
-double fork_wait_one_process_avg = 0.0;
-double access_one_byte_avg = 0.0;
+static double fork_wait_one_process_avg = 0.0;
+static double access_one_byte_avg = 0.0;
 
 uint64_t rdtsc()
 {
@@ -79,13 +79,13 @@ void access_one_byte (long iterations)
 /* calculate average process fork wait time */
 void fork_wait_one_process(){
     int i;
-    unsigned long long int cycle1;
-    unsigned long long int cycle2;
+    unsigned long long int counter1;
+    unsigned long long int counter2;
     unsigned long long int total;
     pid_t pid;
     int status;
 
-    cycle1 = rdtsc();
+    counter1 = rdtsc();
     for (i=0; i<PROCESS_NUM; i++){
         pid = fork();
         if (pid < 0) {
@@ -96,25 +96,25 @@ void fork_wait_one_process(){
         }
         wait(&status);
     }
-    cycle2 = rdtsc();
+    counter2 = rdtsc();
 
-    total = cycle2 - cycle1;
+    total = counter2 - counter1;
     fork_wait_one_process_avg = (double)total / (double)PROCESS_NUM;
 }
 
 int one_time_result()
 {
     long iterations = 2000000000;
-    printf("Detecting ... \n\n");
+    DPRINTF("Detecting ... \n\n");
 
     access_one_byte (iterations);
-    printf("Accessing one byte...  \navg. time = %f\n\n", access_one_byte_avg );
+    DPRINTF("Accessing one byte...  \navg. time = %f\n\n", access_one_byte_avg );
 
     fork_wait_one_process();
-    printf("Fork and wait one process...  \navg. time = %f\n\n", fork_wait_one_process_avg );
+    DPRINTF("Fork and wait one process...  \navg. time = %f\n\n", fork_wait_one_process_avg );
 
     double ratio = fork_wait_one_process_avg / access_one_byte_avg;
-    printf("Ratio = %f\n\n", ratio);
+    DPRINTF("Ratio = %f\n\n", ratio);
 
     if (ratio < EPT_THRESHOLD)
         return 1;
