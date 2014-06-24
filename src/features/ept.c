@@ -32,7 +32,7 @@
 #define PAGESIZE 4096
 #define PROCESS_NUM 40000
 #define LOOP_NUMBER 3
-#define EPT_THRESHOLD 150000
+#define EPT_THRESHOLD 30000
 
 /* global variables */
 
