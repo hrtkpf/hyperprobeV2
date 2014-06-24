@@ -18,22 +18,26 @@
  * 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <stdlib.h>
-#include <string.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 
 /* define constant numbers */
+
 #define PAGESIZE 4096
-#define NUM_OF_PAGES 1024*16
-#define STEP 33
-#define EPT_THRESHOLD 800
+#define PROCESS_NUM 40000
 #define LOOP_NUMBER 3
+#define EPT_THRESHOLD 150000
+
 /* global variables */
-unsigned long long int alloc_one_page_avg = 0;
-unsigned long long int access_one_byte_avg = 0;
+
+double fork_wait_one_process_avg = 0.0;
+double access_one_byte_avg = 0.0;
 
 uint64_t rdtsc()
 {
@@ -42,97 +46,87 @@ uint64_t rdtsc()
     return ((uint64_t)hi << 32) | lo;
 }
 
-/* allocate one page and initialize it to 0 */
-char* alloc_one_page()
+
+/* calculate average page access time */
+void access_one_byte (long iterations)
 {
+    unsigned long long int total = 0;
+    unsigned long long int counter1 = 0;
+    unsigned long long int counter2 = 0;
+    long i = 0;
+    int offset = 0;
+
+    /* allocate one page memory */
     char* page = (char*) malloc(PAGESIZE * sizeof(char));
     if (page != NULL){
         memset(page, 0, PAGESIZE);
     }
-    return page;
-}
 
-/* allocate a number of pages */
-char** alloc_all_pages(long num_of_pages)
-{
-    unsigned long long int cycles_before = 0;
-    unsigned long long int cycles_after = 0;
-    unsigned long long int total = 0;
-    long i = 0;
-
-    char **pages = (char**) malloc (num_of_pages * sizeof(char*));
-
-    cycles_before = rdtsc();
-    for (i=0; i<num_of_pages; i++){
-        pages[i] = alloc_one_page();
-    }
-    cycles_after = rdtsc();
-
-    total += cycles_after - cycles_before;
-    alloc_one_page_avg = total/num_of_pages;
-    return pages;
-}
-
-/* release all allocated pages */
-void release_all_pages (char** pages, long num_of_pages)
-{
-    long i = 0;
-    for (i=0; i<num_of_pages; i++){
-        free(pages[i]);
-    }
-    free(pages);
-}
-
-/* calculate average page access time */
-void access_one_page (char ** pages, long num_of_pages, unsigned long long int iterations)
-{
-    unsigned long long int total = 0;
-    unsigned long long int cycles_before = 0;
-    unsigned long long int cycles_after = 0;
-    unsigned long long int i = 0;
-    int offset = 0;
-    cycles_before = rdtsc();
+    counter1 = rdtsc();
     for (i=0; i<iterations; i++){
-        offset = (offset + STEP) % PAGESIZE;
-        pages[0][offset] = ( pages[0][offset] + 1 ) % 256;
+        offset = (offset + 1) % PAGESIZE;
+        page[offset] = ( page[offset] + 1 ) % 256;
     }
-    cycles_after = rdtsc();
-    total += cycles_after - cycles_before;
-    access_one_byte_avg =  total/iterations;
+    counter2 = rdtsc();
+
+    total = counter2 - counter1;
+    access_one_byte_avg =  (double)total / (double)iterations;
+
+    /* release page*/
+    free(page);
 }
 
+/* calculate average process fork wait time */
+void fork_wait_one_process(){
+    int i;
+    unsigned long long int cycle1;
+    unsigned long long int cycle2;
+    unsigned long long int total;
+    pid_t pid;
+    int status;
+
+    cycle1 = rdtsc();
+    for (i=0; i<PROCESS_NUM; i++){
+        pid = fork();
+        if (pid < 0) {
+            exit(0);
+        }
+        if (pid == 0) {
+            exit(0);
+        }
+        wait(&status);
+    }
+    cycle2 = rdtsc();
+
+    total = cycle2 - cycle1;
+    fork_wait_one_process_avg = (double)total / (double)PROCESS_NUM;
+}
 
 int one_time_result()
 {
-    long iterations = 2000000;
-    DPRINTF("Detecting ... \n");
+    long iterations = 2000000000;
+    printf("Detecting ... \n\n");
 
-    char** p = alloc_all_pages(NUM_OF_PAGES);
-    DPRINTF("Allocating one page...  \navg. time = %lld\n", alloc_one_page_avg );
+    access_one_byte (iterations);
+    printf("Accessing one byte...  \navg. time = %f\n\n", access_one_byte_avg );
 
-    access_one_page (p, NUM_OF_PAGES, PAGESIZE*iterations);
-    DPRINTF("Accessing one byte...  \navg. time = %lld\n", access_one_byte_avg );
-    
-    release_all_pages(p, NUM_OF_PAGES);
+    fork_wait_one_process();
+    printf("Fork and wait one process...  \navg. time = %f\n\n", fork_wait_one_process_avg );
 
-    double ratio = (double)alloc_one_page_avg / (double) access_one_byte_avg;
-    DPRINTF("Ratio = %f\n", ratio);
+    double ratio = fork_wait_one_process_avg / access_one_byte_avg;
+    printf("Ratio = %f\n\n", ratio);
 
     if (ratio < EPT_THRESHOLD)
-	return 1;
+        return 1;
     else
         return 0;
 }
 
 int test_ept(){
     int i = 0;
-    int result = 0;
     for (i=0; i<LOOP_NUMBER; i++){
-        result = one_time_result();
-        if (result == 1){
-            break;
-        }
+        if (one_time_result())
+            return 1;
     }
-    return result;
+    return 0;
 }
-
