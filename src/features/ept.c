@@ -30,13 +30,10 @@
 /* define constant numbers */
 
 #define PAGESIZE 4096
-<<<<<<< HEAD
 #define PROCESS_NUM 40000
-=======
 #define NUM_OF_PAGES 1024*16
 #define STEP 33
 #define EPT_THRESHOLD 1500
->>>>>>> e7178b94c6f432af0a67297ec84bfbc40aaae14f
 #define LOOP_NUMBER 3
 #define EPT_THRESHOLD 150000
 
