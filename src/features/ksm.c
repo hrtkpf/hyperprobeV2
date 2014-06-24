@@ -29,7 +29,7 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 
-#define KSM_THRESHOLD 5
+#define KSM_THRESHOLD 2
 #define KSM_SLEEP 180
 
 struct timespec diff(struct timespec start, struct timespec end)
