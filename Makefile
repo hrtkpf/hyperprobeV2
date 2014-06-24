@@ -12,7 +12,7 @@ BIN_TARGET = ${DIR_BIN}/${TARGET}
 
 CC = gcc
 LDADD = -lrt
-CFLAGS = -g -Wall -I${DIR_INC} -O2 -fomit-frame-pointer -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -DDEBUG
+CFLAGS = -g -Wall -I${DIR_INC} -fomit-frame-pointer -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -DDEBUG
 
 ${BIN_TARGET}:${OBJ}
 	$(CC) $(OBJ)  -o $@ $(LDADD)
