@@ -44,15 +44,15 @@ int test_msr_ia32_bbl_cr_ctl3()
 	if(pid==0)	//child process
 	{
 		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		rdmsr_on_cpu(MSR_IA32_BBL_CR_CTL3,0);
+		rdmsr_on_cpu(MSR_IA32_BBL_CR_CTL3,0);  // If the register isn't readable, than rdmsr_on_cpu would exit this process with a non-zero exit status value.
 		DPRINTF("DEBUG: Child: Bug Fixed: MSR_IA32_BBL_CR_CTL3 is readable!\n");
 		exit(0);
 	}else		//parent process
 	{
 		wait(&status);
-		if(WIFEXITED(status))
+		if(WIFEXITED(status)) // Based on the glibc manual, this macro returns a nonzero value if the child process terminated normally with exit or __exit.
 		{
-			if(WEXITSTATUS(status))
+			if(WEXITSTATUS(status)) // If WIFEXITED is true of status, this macro returns the low-order 8 bits of the exit status value from the child process
 			{
 				DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
 				DPRINTF("DEBUG: Parent: Bug Exists: MSR_IA32_BBL_CR_CTL3 is not readable!\n");
