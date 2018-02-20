@@ -40,7 +40,7 @@
 //#define MSR_CORE_PERF_GLOBAL_CTRL       0x0000038f
 //#define MSR_CORE_PERF_GLOBAL_OVF_CTRL   0x00000390
 
-// Thie function use fork to create a child process. The child process tries to read MSR_CORE_PERF_GLOBAL_CTRL.
+// This function uses the fork function to create a child process. The child process tries to read MSR_CORE_PERF_GLOBAL_CTRL.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if feature exist, 0 if not sure.
 int test_pmu_v2()
