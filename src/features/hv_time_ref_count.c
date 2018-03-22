@@ -61,12 +61,12 @@ int test_hv_time_ref_count()
                         {
                                 DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
                                 DPRINTF("DEBUG: Parent: Feature Exists: HV_X64_MSR_TIME_REF_COUNT is readable!\n");
-                                return 1;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+                                return 1;       //child process exit normally with exit code 0, which means the register is readable, so the feature is existing.
                         }
                 }else
                 {
                         DPRINTF("DEBUG: Parent: Feature not Exists: HV_X64_MSR_TIME_REF_COUNT is not readable!\n");
-                        return 0;       //child process exit abnormally, the register is not readable, so the bug is existing.
+                        return 0;       //child process exit abnormally, the register is not readable, so the feature is not existing.
                 }
                 DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
 	}
