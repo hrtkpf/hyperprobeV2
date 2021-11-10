@@ -30,45 +30,40 @@
 // Thie function use fork to create a child process. The child process tries to read HV_X64_MSR_APIC_ASSIST_PAGE.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if feature exist, 0 if not sure.
-int test_hv_apic_assist_page()
-{
-	pid_t pid;
-	int status;
+int test_hv_apic_assist_page() {
+    pid_t pid;
+    int status;
 
-	if( (pid=fork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+    if ((pid = fork()) < 0) {
+        perror("fail to fork\n");
+    }
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		rdmsr_on_cpu(HV_X64_MSR_APIC_ASSIST_PAGE,0);
-		DPRINTF("DEBUG: Child: Feature Exists: HV_X64_MSR_APIC_ASSIST_PAGE is readable!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-                if(WIFEXITED(status))	// WIFEXITED(status) returns true if the child terminated normally
-                {
-                        if(WEXITSTATUS(status))	// WEXITSTATUS(status) returns  the  exit  status  of the child.
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature not Exists: HV_X64_MSR_APIC_ASSIST_PAGE is not readable!\n");
-                                return 0;
-                        }
-                        else
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Feature Exists: HV_X64_MSR_APIC_ASSIST_PAGE is readable!\n");
-                                return 1;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
-                        }
-                }else
-                {
-                        DPRINTF("DEBUG: Parent: Feature not Exists: HV_X64_MSR_APIC_ASSIST_PAGE is not readable!\n");
-                        return 0;       //child process exit abnormally, the register is not readable, so the bug is existing.
-                }
-                DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        rdmsr_on_cpu(HV_X64_MSR_APIC_ASSIST_PAGE, 0);
+        DPRINTF("DEBUG: Child: Feature Exists: HV_X64_MSR_APIC_ASSIST_PAGE is readable!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (WIFEXITED(status))    // WIFEXITED(status) returns true if the child terminated normally
+        {
+            if (WEXITSTATUS(status))    // WEXITSTATUS(status) returns  the  exit  status  of the child.
+            {
+                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
+                DPRINTF("DEBUG: Parent: Feature not Exists: HV_X64_MSR_APIC_ASSIST_PAGE is not readable!\n");
+                return 0;
+            } else {
+                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
+                DPRINTF("DEBUG: Parent: Feature Exists: HV_X64_MSR_APIC_ASSIST_PAGE is readable!\n");
+                return 1;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+            }
+        } else {
+            DPRINTF("DEBUG: Parent: Feature not Exists: HV_X64_MSR_APIC_ASSIST_PAGE is not readable!\n");
+            return 0;       //child process exit abnormally, the register is not readable, so the bug is existing.
+        }
+        DPRINTF("DEBUG: Parent: %s %d \n", __FUNCTION__, __LINE__);
+    }
+    return 0;
 }

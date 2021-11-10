@@ -22,20 +22,17 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/cpuid.h"
 
-int test_mtrr()
-{
-	int a,b,c,d;
-	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-	// When we set EAX=0x80000001 and run CPUID instruction, the returning value in bit 12 of EDX indicates whether or not x2apic is supported.
-	cpuid(0x80000001,a,b,c,d);
-	if(d & (1<<EDX_BIT_MTRR))
-	{
-		DPRINTF("DEBUG: Feature: mtrr exists!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Feature: mtrr not exists!\n");
-		return 0;
-	}
-	return 0;
+int test_mtrr() {
+    int a, b, c, d;
+    DPRINTF("DEBUG: Passed %s %d \n", __FUNCTION__, __LINE__);
+    // When we set EAX=0x80000001 and run CPUID instruction, the returning value in bit 12 of EDX indicates whether or not x2apic is supported.
+    cpuid(0x80000001, a, b, c, d);
+    if (d & (1 << EDX_BIT_MTRR)) {
+        DPRINTF("DEBUG: Feature: mtrr exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: mtrr not exists!\n");
+        return 0;
+    }
+    return 0;
 }

@@ -23,20 +23,17 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/cpuid.h"
 
-int test_rdtscp()
-{
-	int a,b,c,d;
-	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-	// When we set EAX=0x80000001 and run CPUID instruction, the returning value in bit 27 of EDX indicates whether or not rdtscp is supported.
-	cpuid(0x80000001,a,b,c,d);
-	if(d & (1<<EDX_BIT_RDTSCP))
-	{
-		DPRINTF("DEBUG: Feature: rdtscp exists!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Feature: rdtscp not exists!\n");
-		return 0;
-	}
-	return 0;
+int test_rdtscp() {
+    int a, b, c, d;
+    DPRINTF("DEBUG: Passed %s %d \n", __FUNCTION__, __LINE__);
+    // When we set EAX=0x80000001 and run CPUID instruction, the returning value in bit 27 of EDX indicates whether or not rdtscp is supported.
+    cpuid(0x80000001, a, b, c, d);
+    if (d & (1 << EDX_BIT_RDTSCP)) {
+        DPRINTF("DEBUG: Feature: rdtscp exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: rdtscp not exists!\n");
+        return 0;
+    }
+    return 0;
 }

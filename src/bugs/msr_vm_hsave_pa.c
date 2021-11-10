@@ -31,46 +31,39 @@
 // Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if bug exist, 0 if not sure.
-int test_msr_vm_hsave_pa()
-{
-	pid_t pid;
-	int status;
+int test_msr_vm_hsave_pa() {
+    pid_t pid;
+    int status;
 
-	if( (pid=fork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+    if ((pid = fork()) < 0) {
+        perror("fail to fork\n");
+    }
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		rdmsr_on_cpu(MSR_VM_HSAVE_PA,0);
-                DPRINTF("DEBUG: Child: Bug Fixed: MSR_VM_HSAVE_PA is readable!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-		if(WIFEXITED(status))
-		{
-			if(WEXITSTATUS(status))
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Exists: MSR_VM_HSAVE_PA is not readable!\n");
-                                return 1;
-                        }
-                        else
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Fixed: MSR_VM_HSAVE_PA is readable!\n");
-                                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
-                        }
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        rdmsr_on_cpu(MSR_VM_HSAVE_PA, 0);
+        DPRINTF("DEBUG: Child: Bug Fixed: MSR_VM_HSAVE_PA is readable!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status)) {
+                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Exists: MSR_VM_HSAVE_PA is not readable!\n");
+                return 1;
+            } else {
+                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Fixed: MSR_VM_HSAVE_PA is readable!\n");
+                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+            }
 
-		}else
-		{
-                        DPRINTF("DEBUG: Parent: Bug Exists: MSR_VM_HSAVE_PA is not readable!\n");
-			return 1;	//child process exit abnormally, the register is not writable, so the bug is existing.
-		}
-		DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
+        } else {
+            DPRINTF("DEBUG: Parent: Bug Exists: MSR_VM_HSAVE_PA is not readable!\n");
+            return 1;    //child process exit abnormally, the register is not writable, so the bug is existing.
+        }
+        DPRINTF("DEBUG: Parent: %s %d \n", __FUNCTION__, __LINE__);
+    }
+    return 0;
 }

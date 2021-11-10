@@ -32,22 +32,21 @@
 // Before kernel 3.2, the register returns 0 upon read.
 // Since kernel 3.2, the register returns a non-zero value.
 // Return: 1 if bug exist, 0 if not sure.
-int test_msr_ia32_ucode_rev()
-{
-	uint64_t data;
+int test_msr_ia32_ucode_rev() {
+    uint64_t data;
 
-	data=rdmsr_on_cpu(MSR_IA32_UCODE_REV,0);
-	if(data==0)
-	{
-		DPRINTF("DEBUG: Bug Exists: MSR_IA32_UCODE_REV returns 0 upon read!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns non-zero upon read!\n");
-                DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns %" PRIu64 "\n",data);
-		return 0;
-	}
-	
-	return 0;
+    data = rdmsr_on_cpu(MSR_IA32_UCODE_REV, 0);
+    if (data == 0) {
+        DPRINTF("DEBUG: Bug Exists: MSR_IA32_UCODE_REV returns 0 upon read!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns non-zero upon read!\n");
+        DPRINTF("DEBUG: Bug Fixed: MSR_IA32_UCODE_REV returns %"
+        PRIu64
+        "\n", data);
+        return 0;
+    }
+
+    return 0;
 }
 

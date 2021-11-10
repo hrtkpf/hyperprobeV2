@@ -31,58 +31,53 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 
-static unsigned long get_dr6(void)
-{
-        unsigned long value;
+static unsigned long get_dr6(void) {
+    unsigned long value;
 
-        asm volatile("mov %%dr6,%0" : "=r" (value));
-        return value;
+    asm volatile("mov %%dr6,%0" : "=r" (value));
+    return value;
 }
 
-static void set_dr6(unsigned long value)
-{
-        asm volatile("mov %0,%%dr6" : : "r" (value));
+static void set_dr6(unsigned long value) {
+    asm volatile("mov %0,%%dr6" : : "r" (value));
 }
 
 
 // This function forks a child process, the child process attempts to write and then read dr register 6, 
 // if some bits are kept, we assume the feature is exists, otherwise, we think the feature might not be existing.
 // Return: 1 if feature exist, 0 if feature not exist.
-#define WRITE_TO_DR	0x123
-#define DR6_FIXED_1	0xffff0ff0
-#define DR6_VOLATILE	0x0000e00f
+#define WRITE_TO_DR    0x123
+#define DR6_FIXED_1    0xffff0ff0
+#define DR6_VOLATILE    0x0000e00f
 unsigned long dr;
-int test_virtual_dr()
-{
-	return 0;
-	pid_t pid;
-	int status;
 
-	if( (pid=vfork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+int test_virtual_dr() {
+    return 0;
+    pid_t pid;
+    int status;
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		set_dr6(WRITE_TO_DR);
-		dr=get_dr6();
-		DPRINTF("DEBUG: Child: DR register is accessible by ring3 program!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-		if(dr == ((WRITE_TO_DR & DR6_VOLATILE) | DR6_FIXED_1))
-		{
-			DPRINTF("DEBUG: Parent: Feature Exists: we can read from and write to DR correctly.\n");
-			return 1;	//child process exit normally, which means dr register is accessible, so the bug is existing.
-		}else
-		{
-			DPRINTF("DEBUG: Parent: We are not sure, either DR is not readable/writable, or the feature is not supported.\n");
-			return 0; //child process is terminated by a segmentation fault signal, which means the bug does not exist.
-		}
+    if ((pid = vfork()) < 0) {
+        perror("fail to fork\n");
+    }
+
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        set_dr6(WRITE_TO_DR);
+        dr = get_dr6();
+        DPRINTF("DEBUG: Child: DR register is accessible by ring3 program!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (dr == ((WRITE_TO_DR & DR6_VOLATILE) | DR6_FIXED_1)) {
+            DPRINTF("DEBUG: Parent: Feature Exists: we can read from and write to DR correctly.\n");
+            return 1;    //child process exit normally, which means dr register is accessible, so the bug is existing.
+        } else {
+            DPRINTF("DEBUG: Parent: We are not sure, either DR is not readable/writable, or the feature is not supported.\n");
+            return 0; //child process is terminated by a segmentation fault signal, which means the bug does not exist.
+        }
 //		printf("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
+    }
+    return 0;
 }

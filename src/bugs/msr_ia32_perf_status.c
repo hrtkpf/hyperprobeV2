@@ -31,21 +31,19 @@
 // Thie function use fork to create a child process. The child process tries to read MSR_KVM_API_MAGIC.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if bug exist, 0 if not sure.
-int test_msr_ia32_perf_status()
-{
-	uint64_t data;
+int test_msr_ia32_perf_status() {
+    uint64_t data;
 
-	data=rdmsr_on_cpu(MSR_IA32_PERF_STATUS,0);
-	if(data==0)
-	{
-		DPRINTF("DEBUG: Bug Exists: MSR_IA32_PERF_STATUS returns 0 upon read!\n");
-		return 1;
-	}
-	else
-	{
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns non-zero upon read!\n");
-		DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %" PRIu64 "\n",data);
-		return 0;
-	}
-	return 0;
+    data = rdmsr_on_cpu(MSR_IA32_PERF_STATUS, 0);
+    if (data == 0) {
+        DPRINTF("DEBUG: Bug Exists: MSR_IA32_PERF_STATUS returns 0 upon read!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns non-zero upon read!\n");
+        DPRINTF("DEBUG: Bug Fixed: MSR_IA32_PERF_STATUS returns %"
+        PRIu64
+        "\n", data);
+        return 0;
+    }
+    return 0;
 }

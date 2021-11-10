@@ -22,28 +22,28 @@
 #ifndef __FEATURES_H
 #define __FEATURES_H
 
-#define FEATURE_KVM_MAGIC	0
-#define FEATURE_SMP		1
-#define FEATURE_KVM_SIGNATURE	2
-#define FEATURE_EPT		3
-#define FEATURE_MTRR		4
-#define FEATURE_VIRTUAL_DR	5
-#define FEATURE_POPCNT		6
-#define FEATURE_KSM		7
-#define FEATURE_PLE		8
-#define FEATURE_RDTSCP		9
-#define FEATURE_KVM_CLOCK_NEW	10
-#define FEATURE_ASYNC_PF	11
-#define FEATURE_STEAL_TIME	12
+#define FEATURE_KVM_MAGIC    0
+#define FEATURE_SMP        1
+#define FEATURE_KVM_SIGNATURE    2
+#define FEATURE_EPT        3
+#define FEATURE_MTRR        4
+#define FEATURE_VIRTUAL_DR    5
+#define FEATURE_POPCNT        6
+#define FEATURE_KSM        7
+#define FEATURE_PLE        8
+#define FEATURE_RDTSCP        9
+#define FEATURE_KVM_CLOCK_NEW    10
+#define FEATURE_ASYNC_PF    11
+#define FEATURE_STEAL_TIME    12
 //#define FEATURE_NESTED_VMX		3
-#define FEATURE_HV_APIC_ASSIST_PAGE	13
-#define FEATURE_PMU_V2		14
-#define FEATURE_PV_EOI_EN	15
-#define FEATURE_X2APIC	 	16
-#define FEATURE_NESTED_PREEMPTION_TIMER 	17
-#define FEATURE_NESTED_EPT 	18
-#define FEATURE_NESTED_EPT_2MB 	19
-#define FEATURE_HV_TIME_REF_COUNT	20
+#define FEATURE_HV_APIC_ASSIST_PAGE    13
+#define FEATURE_PMU_V2        14
+#define FEATURE_PV_EOI_EN    15
+#define FEATURE_X2APIC        16
+#define FEATURE_NESTED_PREEMPTION_TIMER    17
+#define FEATURE_NESTED_EPT    18
+#define FEATURE_NESTED_EPT_2MB    19
+#define FEATURE_HV_TIME_REF_COUNT    20
 
 extern int test_kvm_magic();
 extern int test_smp();

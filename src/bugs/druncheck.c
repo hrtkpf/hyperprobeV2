@@ -28,55 +28,48 @@
 #include "hyperprobe/bugs.h"
 #include "hyperprobe/debug.h"
 
-static unsigned long get_dr6(void)
-{
-        unsigned long value;
+static unsigned long get_dr6(void) {
+    unsigned long value;
 
-        asm volatile("mov %%dr6,%0" : "=r" (value));
-        return value;
+    asm volatile("mov %%dr6,%0" : "=r" (value));
+    return value;
 }
 
 // This function forks a child process, if the child process successfully accessed dr register, 
 // it implies that the dr uncheck access bug is existing. Otherwise, if the child process is terminated
 // by a segmemtation fault signal, it suggests the bug is fixed.
 // Return: 1 if bug exist, 0 if bug not exist.
-int test_dr_uncheck()
-{
-	pid_t pid;
-	unsigned long dr;
-	int status;
+int test_dr_uncheck() {
+    pid_t pid;
+    unsigned long dr;
+    int status;
 
-	if( (pid=fork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+    if ((pid = fork()) < 0) {
+        perror("fail to fork\n");
+    }
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		dr=get_dr6();
-		DPRINTF("DEBUG: Child: Bug Exists: dr register is accessible by ring3 program!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-		if(WIFEXITED(status))
-		{
-			return 1;	//child process exit normally, which means dr register is accessible, so the bug is existing.
-		}else if(WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGSEGV)
-			{
-				DPRINTF("DEBUG: Parent: the child process is terminated by a segmentation fault signal\n");
-				DPRINTF("DEBUG: Parent: Bug Fixed: dr register is not accessible by ring3 program!\n");
-				return 0; //child process is terminated by a segmentation fault signal, which means the bug does not exist.
-			}
-			else
-				DPRINTF("This is funny. The child process is terminated by some other signals?\n");
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        dr = get_dr6();
+        DPRINTF("DEBUG: Child: Bug Exists: dr register is accessible by ring3 program!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (WIFEXITED(status)) {
+            return 1;    //child process exit normally, which means dr register is accessible, so the bug is existing.
+        } else if (WIFSIGNALED(status)) {
+            if (WTERMSIG(status) == SIGSEGV) {
+                DPRINTF("DEBUG: Parent: the child process is terminated by a segmentation fault signal\n");
+                DPRINTF("DEBUG: Parent: Bug Fixed: dr register is not accessible by ring3 program!\n");
+                return 0; //child process is terminated by a segmentation fault signal, which means the bug does not exist.
+            } else
+                DPRINTF("This is funny. The child process is terminated by some other signals?\n");
 
-		}
+        }
 //		printf("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
-	//
+    }
+    return 0;
+    //
 }

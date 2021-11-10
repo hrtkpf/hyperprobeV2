@@ -39,17 +39,15 @@
 static double fork_wait_one_process_avg = 0.0;
 static double access_one_byte_avg = 0.0;
 
-uint64_t rdtsc()
-{
-    unsigned int lo,hi;
+uint64_t rdtsc() {
+    unsigned int lo, hi;
     __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
-    return ((uint64_t)hi << 32) | lo;
+    return ((uint64_t) hi << 32) | lo;
 }
 
 
 /* calculate average page access time */
-void access_one_byte (long iterations)
-{
+void access_one_byte(long iterations) {
     unsigned long long int total = 0;
     unsigned long long int counter1 = 0;
     unsigned long long int counter2 = 0;
@@ -57,27 +55,27 @@ void access_one_byte (long iterations)
     int offset = 0;
 
     /* allocate one page memory */
-    char* page = (char*) malloc(PAGESIZE * sizeof(char));
-    if (page != NULL){
+    char *page = (char *) malloc(PAGESIZE * sizeof(char));
+    if (page != NULL) {
         memset(page, 0, PAGESIZE);
     }
 
     counter1 = rdtsc();
-    for (i=0; i<iterations; i++){
+    for (i = 0; i < iterations; i++) {
         offset = (offset + 1) % PAGESIZE;
-        page[offset] = ( page[offset] + 1 ) % 256;
+        page[offset] = (page[offset] + 1) % 256;
     }
     counter2 = rdtsc();
 
     total = counter2 - counter1;
-    access_one_byte_avg =  (double)total / (double)iterations;
+    access_one_byte_avg = (double) total / (double) iterations;
 
     /* release page*/
     free(page);
 }
 
 /* calculate average process fork wait time */
-void fork_wait_one_process(){
+void fork_wait_one_process() {
     int i;
     unsigned long long int counter1;
     unsigned long long int counter2;
@@ -86,7 +84,7 @@ void fork_wait_one_process(){
     int status;
 
     counter1 = rdtsc();
-    for (i=0; i<PROCESS_NUM; i++){
+    for (i = 0; i < PROCESS_NUM; i++) {
         pid = fork();
         if (pid < 0) {
             exit(0);
@@ -99,19 +97,18 @@ void fork_wait_one_process(){
     counter2 = rdtsc();
 
     total = counter2 - counter1;
-    fork_wait_one_process_avg = (double)total / (double)PROCESS_NUM;
+    fork_wait_one_process_avg = (double) total / (double) PROCESS_NUM;
 }
 
-int one_time_result()
-{
+int one_time_result() {
     long iterations = 2000000000;
     DPRINTF("Detecting ... \n\n");
 
-    access_one_byte (iterations);
-    DPRINTF("Accessing one byte...  \navg. time = %f\n\n", access_one_byte_avg );
+    access_one_byte(iterations);
+    DPRINTF("Accessing one byte...  \navg. time = %f\n\n", access_one_byte_avg);
 
     fork_wait_one_process();
-    DPRINTF("Fork and wait one process...  \navg. time = %f\n\n", fork_wait_one_process_avg );
+    DPRINTF("Fork and wait one process...  \navg. time = %f\n\n", fork_wait_one_process_avg);
 
     double ratio = fork_wait_one_process_avg / access_one_byte_avg;
     DPRINTF("Ratio = %f\n\n", ratio);
@@ -122,9 +119,9 @@ int one_time_result()
         return 0;
 }
 
-int test_ept(){
+int test_ept() {
     int i = 0;
-    for (i=0; i<LOOP_NUMBER; i++){
+    for (i = 0; i < LOOP_NUMBER; i++) {
         if (one_time_result())
             return 1;
     }

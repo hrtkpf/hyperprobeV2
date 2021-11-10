@@ -23,20 +23,17 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/cpuid.h"
 
-int test_popcnt()
-{
-	int a,b,c,d;
-	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-	// When we set EAX=1 and run CPUID instruction, the returning value in bit 23 of ECX indicates whether or not popcnt is supported.
-	cpuid(0x1,a,b,c,d);
-	if(c & (1<<ECX_BIT_POPCNT))
-	{
-		DPRINTF("DEBUG: Feature: popcnt exists!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Feature: popcnt not exists!\n");
-		return 0;
-	}
-	return 0;
+int test_popcnt() {
+    int a, b, c, d;
+    DPRINTF("DEBUG: Passed %s %d \n", __FUNCTION__, __LINE__);
+    // When we set EAX=1 and run CPUID instruction, the returning value in bit 23 of ECX indicates whether or not popcnt is supported.
+    cpuid(0x1, a, b, c, d);
+    if (c & (1 << ECX_BIT_POPCNT)) {
+        DPRINTF("DEBUG: Feature: popcnt exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: popcnt not exists!\n");
+        return 0;
+    }
+    return 0;
 }

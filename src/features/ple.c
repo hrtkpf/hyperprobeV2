@@ -37,10 +37,9 @@ uint64_t rdtsc(){
 // if it is more than 1, then we assume Guest smp is supported.
 // Otherwise, we are not sure smp is supported or not.
 // Return: 1 if feature exist, 0 if not sure.
-int test_ple()
-{
+int test_ple() {
 /*We are not able to detect PLE at this moment, so let's just return 0 and assume it is not existing.*/
-	return 0;
+    return 0;
 /*
 	int i;
 	unsigned long long int cycles_1 = rdtsc();	

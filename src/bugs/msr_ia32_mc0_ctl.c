@@ -30,46 +30,40 @@
 // Thie function use fork to create a child process. The child process tries to clear bit 10 of MSR_IA32_MC0_CTL.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if bug exist, 0 if not sure.
-int test_msr_ia32_mc0_ctl()
-{
-	pid_t pid;
-	int status;
+int test_msr_ia32_mc0_ctl() {
+    pid_t pid;
+    int status;
 
-	if( (pid=fork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+    if ((pid = fork()) < 0) {
+        perror("fail to fork\n");
+    }
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		wrmsr_on_cpu(MSR_IA32_MC0_CTL,0,0x0);	//FIXME: Maybe we should read the original value and just clear bit 10, rather than clear every bit.
-		DPRINTF("DEBUG: Child: Bug Fixed: bit 10 of MSR_IA32_MC0_CTL is clearable!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-		if(WIFEXITED(status))
-		{
-                        if(WEXITSTATUS(status))
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Exists: clearing bit 10 of MSR_IA32_MC0_CTL is not allowed!\n");
-                                return 1;
-                        }
-                        else
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Fixed: clearing bit 10 of MSR_IA32_MC0_CTL is allowed!\n");
-                                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
-                        }
-		}else
-		{
-			DPRINTF("DEBUG: Parent: Bug Exists: clearing bit 10 of MSR_IA32_MC0_CTL is not allowed!\n");
-			return 1;	//child process exit abnormally, the register is not writable, so the bug is existing.
-		}
-		DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        wrmsr_on_cpu(MSR_IA32_MC0_CTL, 0,
+                     0x0);    //FIXME: Maybe we should read the original value and just clear bit 10, rather than clear every bit.
+        DPRINTF("DEBUG: Child: Bug Fixed: bit 10 of MSR_IA32_MC0_CTL is clearable!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status)) {
+                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Exists: clearing bit 10 of MSR_IA32_MC0_CTL is not allowed!\n");
+                return 1;
+            } else {
+                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Fixed: clearing bit 10 of MSR_IA32_MC0_CTL is allowed!\n");
+                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+            }
+        } else {
+            DPRINTF("DEBUG: Parent: Bug Exists: clearing bit 10 of MSR_IA32_MC0_CTL is not allowed!\n");
+            return 1;    //child process exit abnormally, the register is not writable, so the bug is existing.
+        }
+        DPRINTF("DEBUG: Parent: %s %d \n", __FUNCTION__, __LINE__);
+    }
+    return 0;
 }
 

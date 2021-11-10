@@ -31,46 +31,39 @@
 // Thie function use fork to create a child process. The child process tries to read MSR_K7_HWCR.
 // If the register exists, it is readable. Otherwise, it is not readable.
 // Return: 1 if bug exist, 0 if not sure.
-int test_msr_k7_hwcr_0x100()
-{
-	pid_t pid;
-	int status;
+int test_msr_k7_hwcr_0x100() {
+    pid_t pid;
+    int status;
 
-	if( (pid=fork()) < 0 )
-	{
-		perror("fail to fork\n");
-	}
+    if ((pid = fork()) < 0) {
+        perror("fail to fork\n");
+    }
 
-	if(pid==0)	//child process
-	{
-		DPRINTF("DEBUG: Child: %s %d \n",__FUNCTION__,__LINE__);
-		wrmsr_on_cpu(MSR_K7_HWCR,0,0x100);
-		DPRINTF("DEBUG: Child: Bug Fixed: MSR_K7_HWCR 0x100 is writable!\n");
-		exit(0);
-	}else		//parent process
-	{
-		wait(&status);
-		if(WIFEXITED(status))
-		{
-                        if(WEXITSTATUS(status))
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Exists: writing 0x100 to MSR_K7_HWCR is not allowed!\n");
-                                return 1;
-                        }
-                        else
-                        {
-                                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
-                                DPRINTF("DEBUG: Parent: Bug Fixed: writing 0x100 to MSR_K7_HWCR is allowed!\n");
-                                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
-                        }
-		}else
-		{
-			DPRINTF("DEBUG: Parent: Bug Exists: writing 0x100 to MSR_K7_HWCR is not allowed!\n");
-			return 1;	//child process exit abnormally, the register is not writable, so the bug is existing.
-		}
-		DPRINTF("DEBUG: Parent: %s %d \n",__FUNCTION__,__LINE__);
-	}
-	return 0;
+    if (pid == 0)    //child process
+    {
+        DPRINTF("DEBUG: Child: %s %d \n", __FUNCTION__, __LINE__);
+        wrmsr_on_cpu(MSR_K7_HWCR, 0, 0x100);
+        DPRINTF("DEBUG: Child: Bug Fixed: MSR_K7_HWCR 0x100 is writable!\n");
+        exit(0);
+    } else        //parent process
+    {
+        wait(&status);
+        if (WIFEXITED(status)) {
+            if (WEXITSTATUS(status)) {
+                DPRINTF("DEBUG: Parent: The return code of child process is non zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Exists: writing 0x100 to MSR_K7_HWCR is not allowed!\n");
+                return 1;
+            } else {
+                DPRINTF("DEBUG: Parent: The return code of child process is zero.\n");
+                DPRINTF("DEBUG: Parent: Bug Fixed: writing 0x100 to MSR_K7_HWCR is allowed!\n");
+                return 0;       //child process exit normally with exit code 0, which means the register is readable, so the bug is not existing.
+            }
+        } else {
+            DPRINTF("DEBUG: Parent: Bug Exists: writing 0x100 to MSR_K7_HWCR is not allowed!\n");
+            return 1;    //child process exit abnormally, the register is not writable, so the bug is existing.
+        }
+        DPRINTF("DEBUG: Parent: %s %d \n", __FUNCTION__, __LINE__);
+    }
+    return 0;
 }
 

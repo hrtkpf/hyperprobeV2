@@ -22,9 +22,8 @@
 #include "hyperprobe/features.h"
 #include "hyperprobe/debug.h"
 
-int test_nested()
-{
-	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
+int test_nested() {
+    DPRINTF("DEBUG: Passed %s %d \n", __FUNCTION__, __LINE__);
 //	printf("test nested.\n");
-	return 0;
+    return 0;
 }

@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-#ifdef DEBUG 
+#ifdef DEBUG
 #define DPRINTF(fmt, ...) \
     do { printf(fmt, ## __VA_ARGS__); } while (0)
 #else

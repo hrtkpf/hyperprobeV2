@@ -23,20 +23,17 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/cpuid.h"
 
-int test_kvm_signature()
-{
-	int a,b,c,d;
-	DPRINTF("DEBUG: Passed %s %d \n",__FUNCTION__,__LINE__);
-	// When we set EAX=0x40000000 and run CPUID instruction, the returning value in EDX should be 0x4d, which is the ascii code of letter "M".
-	cpuid(0x40000000,a,b,c,d);
-	if(d==EDX_SIGNATURE)
-	{
-		DPRINTF("DEBUG: Feature: KVM signature exists!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Feature: KVM signature does not exist!\n");
-		return 0;
-	}
-	return 0;
+int test_kvm_signature() {
+    int a, b, c, d;
+    DPRINTF("DEBUG: Passed %s %d \n", __FUNCTION__, __LINE__);
+    // When we set EAX=0x40000000 and run CPUID instruction, the returning value in EDX should be 0x4d, which is the ascii code of letter "M".
+    cpuid(0x40000000, a, b, c, d);
+    if (d == EDX_SIGNATURE) {
+        DPRINTF("DEBUG: Feature: KVM signature exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: KVM signature does not exist!\n");
+        return 0;
+    }
+    return 0;
 }

@@ -27,19 +27,15 @@
 // if it is more than 1, then we assume Guest smp is supported.
 // Otherwise, we are not sure smp is supported or not.
 // Return: 1 if feature exist, 0 if not sure.
-int test_smp()
-{
-	int smp;
-	smp=sysconf( _SC_NPROCESSORS_ONLN );
-	DPRINTF("smp is %d\n",smp);
-	if(smp>1)
-	{
-		DPRINTF("DEBUG: Feature: smp exists!\n");
-		return 1;
-	}
-	else
-	{
-		DPRINTF("DEBUG: Feature: smp does not exist!\n");
-		return 0;
-	}
+int test_smp() {
+    int smp;
+    smp = sysconf(_SC_NPROCESSORS_ONLN);
+    DPRINTF("smp is %d\n", smp);
+    if (smp > 1) {
+        DPRINTF("DEBUG: Feature: smp exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: smp does not exist!\n");
+        return 0;
+    }
 }

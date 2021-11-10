@@ -23,19 +23,16 @@
 #include "hyperprobe/debug.h"
 #include "hyperprobe/cpuid.h"
 
-int test_nested_vmx()
-{
-	int a,b,c,d;
-	// When we set EAX=1 and run CPUID instruction, the returning value in bit 5 of ECX indicates whether or not vmx is supported.
-	cpuid(0x1,a,b,c,d);
-	if(c & 1<<ECX_BIT_VMX)
-	{
-		DPRINTF("DEBUG: Feature: Nested VMX exists!\n");
-		return 1;
-	}else
-	{
-		DPRINTF("DEBUG: Feature: Nested VMX not exists!\n");
-		return 0;
-	}
-	return 0;
+int test_nested_vmx() {
+    int a, b, c, d;
+    // When we set EAX=1 and run CPUID instruction, the returning value in bit 5 of ECX indicates whether or not vmx is supported.
+    cpuid(0x1, a, b, c, d);
+    if (c & 1 << ECX_BIT_VMX) {
+        DPRINTF("DEBUG: Feature: Nested VMX exists!\n");
+        return 1;
+    } else {
+        DPRINTF("DEBUG: Feature: Nested VMX not exists!\n");
+        return 0;
+    }
+    return 0;
 }
