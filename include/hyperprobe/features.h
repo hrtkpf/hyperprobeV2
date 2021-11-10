@@ -44,6 +44,7 @@
 #define FEATURE_NESTED_EPT    18
 #define FEATURE_NESTED_EPT_2MB    19
 #define FEATURE_HV_TIME_REF_COUNT    20
+#define FEATURE_RDSEED_INSTRUCTION 21
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -67,5 +68,6 @@ extern int test_nested_preemption_timer();
 extern int test_nested_ept();
 extern int test_nested_ept_2mb();
 extern int test_hv_time_ref_count();
+extern int test_rdseed_instruction();
 
 #endif /* features.h */

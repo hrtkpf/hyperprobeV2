@@ -1,6 +1,6 @@
 #define cpuid(func, ax, bx, cx, dx)\
         __asm__ __volatile__ ("cpuid":\
-        "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func));
+        "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func), "c" (0x0));  // ECX is always set to 0x0 before cpuid instruction
 
 /* When EAX=1 */
 #define ECX_BIT_VMX    5

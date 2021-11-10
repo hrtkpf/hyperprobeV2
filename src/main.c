@@ -51,6 +51,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_NESTED_EPT]            = test_nested_ept,
         [FEATURE_NESTED_EPT_2MB]        = test_nested_ept_2mb,
         [FEATURE_HV_TIME_REF_COUNT]     = test_hv_time_ref_count,
+        [FEATURE_RDSEED_INSTRUCTION]    = test_rdseed_instruction,
 };
 
 static const int kvm_max_feature_testers =
@@ -79,6 +80,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_NESTED_EPT]            = 312,
         [FEATURE_NESTED_EPT_2MB]        = 313,
         [FEATURE_HV_TIME_REF_COUNT]     = 314,
+        [FEATURE_RDSEED_INSTRUCTION]    = 315,
 };
 
 static int (*const kvm_bug_testers[])() = {
@@ -181,7 +183,7 @@ int main() {
         if (ifeature == 1) {
             DPRINTF("ifeature is 1 while i=%d\n", i);
             vmin = kvm_feature_start[i - 1];
-//			break;
+			break;
         }
     }
 
