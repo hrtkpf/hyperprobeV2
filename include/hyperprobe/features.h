@@ -45,6 +45,7 @@
 #define FEATURE_NESTED_EPT_2MB    19
 #define FEATURE_HV_TIME_REF_COUNT    20
 #define FEATURE_RDSEED_INSTRUCTION 21
+#define FEATURE_INVARIANT_TSC 22
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -69,5 +70,6 @@ extern int test_nested_ept();
 extern int test_nested_ept_2mb();
 extern int test_hv_time_ref_count();
 extern int test_rdseed_instruction();
+extern int test_invariant_tsc();
 
 #endif /* features.h */
