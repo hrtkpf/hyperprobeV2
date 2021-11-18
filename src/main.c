@@ -53,6 +53,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_HV_TIME_REF_COUNT]     = test_hv_time_ref_count,
         [FEATURE_RDSEED_INSTRUCTION]    = test_rdseed_instruction,
         [FEATURE_INVARIANT_TSC]         = test_invariant_tsc,
+        [FEATURE_IPI_HYPERCALL]         = test_ipi_hypercall,
 };
 
 static const int kvm_max_feature_testers =
@@ -83,6 +84,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_HV_TIME_REF_COUNT]     = 314,
         [FEATURE_RDSEED_INSTRUCTION]    = 315,
         [FEATURE_INVARIANT_TSC]         = 316,
+        [FEATURE_IPI_HYPERCALL]         = 419,
 };
 
 static int (*const kvm_bug_testers[])() = {
