@@ -173,7 +173,6 @@ int main() {
     int vmax = VERSION_MAX;
     int vmin = VERSION_MIN;
     int vmax_print;
-    int vmin_print;
 
     DPRINTF("project kick-off!\n");
     int i = 0;
@@ -197,7 +196,12 @@ int main() {
 //			break;
         }
     }
+
+    if (vmax < 40 || vmax < vmin)
+        printf("\n\nSomething must be wrong, since vmin=%d is greater than vmax=%d.\n", vmin, vmax);
+
     if (vmin < 40) {
+        // it's a really old version (2.6.11 - 3.20)
         if (vmax < 40)
             printf("\n\nThe underlying hypervisor kernel version should be between 2.6.%d and 2.6.%d.\n", vmin, vmax);
         else {
@@ -205,16 +209,21 @@ int main() {
             printf("\n\nThe underlying hypervisor kernel version should be between 2.6.%d and 3.%d.\n", vmin,
                    vmax_print);
         }
-    } else {
-        if (vmax < 40 || vmax < vmin)
-            printf("\n\nSomething must be wrong, since vmin=%d is greater than vmax=%d.\n", vmin, vmax);
-        else {
-            vmin_print = vmin - 300;
-            vmax_print = vmax - 300;
-            printf("\n\nThe underlying hypervisor kernel version should be between 3.%d and 3.%d.\n", vmin_print,
-                   vmax_print);
-        }
+    // version 4.1 or above
+    } else if (vmin != vmax) {
+        double vmin_print = (double)vmin / 100;
+        double vmax_print = (double)vmax / 100;
+        printf("\n\nThe underlying hypervisor kernel version should be between %.2f and %.2f.\n", vmin_print, vmax_print);
+    } else if (vmin == vmax) { // check for equality just to be sure...
+        double version = (double)vmin / 100;
+        printf("\n\nThe underlying hypervisor kernel version should be %.2f.\n", version);
     }
+
+    if(vmax == VERSION_MAX){
+        printf("\nHint: The detected maximum version of the underlying hypervisor kernel equals the maximum supported "
+               "version by Hyperprobe. The actual hypervisor kernel version may be higher.\n");
+    }
+
     return 0;
 }
 
