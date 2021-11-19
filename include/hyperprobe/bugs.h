@@ -43,6 +43,7 @@
 #define BUG_MSR_IA32_VMX_ENTRY_CTLS    17
 #define BUG_MSR_IA32_FEATURE_CONTROL    18
 #define BUG_MSR_IA32_APICBASE        19
+#define BUG_MSR_IA32_ARCH_CAPABILITIES 20
 
 extern int test_msr_ia32_mcg_status();
 extern int test_msr_ia32_ebl_cr_poweron();
@@ -67,5 +68,6 @@ extern int test_msr_ia32_vmx_entry_ctls();
 //extern int test_unusable_present();
 extern int test_msr_ia32_feature_control();
 extern int test_msr_ia32_apicbase();
+extern int test_msr_ia32_arch_capabilities_readable();
 
 #endif /* bugs.h */
