@@ -91,6 +91,13 @@ static int const kvm_feature_start[] = {
         [FEATURE_WBNOINVD_INSTRUCTION]  = 421,
 };
 
+// Non-configurable features are always present if implemented and cannot be deactivated by the user
+static int const kvm_features_non_configurable[] = {
+        FEATURE_MSR_IA32_ARCH_CAPABILITIES,
+};
+
+static int const kvm_features_non_configurable_count = ARRAY_SIZE(kvm_features_non_configurable);
+
 static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_IA32_MCG_STATUS]    = test_msr_ia32_mcg_status,
         [BUG_MSR_IA32_EBL_CR_POWERON]    = test_msr_ia32_ebl_cr_poweron,
@@ -189,18 +196,33 @@ int main() {
 
     DPRINTF("===Starting Feature Test!===\n");
     for (i = kvm_max_feature_testers; i > 0; i--) {
+        DPRINTF("==============================\n");
         ifeature = kvm_feature_testers[i - 1]();
         DPRINTF("ifeature is %d\n", ifeature);
+
         if (ifeature == 1) {
             DPRINTF("ifeature is 1 while i=%d\n", i);
             vmin = kvm_feature_start[i - 1];
-			break;
+            break;
+        } else {
+            // If a non-configurable feature is checked and not detected, it is not implemented.
+            // From that, we can assume the maximal hypervisor version.
+            //
+            // Check if array of non-configurable features contains the currently checked feature
+            for(int j = 0; j < kvm_features_non_configurable_count; j++) {
+                if(kvm_features_non_configurable[j] == (i - 1)) {
+                    DPRINTF("Non-configurable feature is not present, assuming max version\n");
+                    vmax = kvm_feature_start[i - 1] - 1;
+                }
+            }
         }
     }
 
     DPRINTF("===Starting Bug Test!===\n");
     for (i = 0; i < kvm_max_bug_testers; i++) {
+        DPRINTF("==============================\n");
         ibug = kvm_bug_testers[i]();
+
         if (ibug == 1) {
             vmax = kvm_bug_end[i] - 1;
 //			break;
