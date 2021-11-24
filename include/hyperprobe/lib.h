@@ -23,6 +23,6 @@
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 #define VERSION_MIN 20
-#define VERSION_MAX 419
+#define VERSION_MAX 421
 
 #endif /* lib.h */

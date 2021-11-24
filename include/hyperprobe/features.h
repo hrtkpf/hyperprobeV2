@@ -48,6 +48,7 @@
 #define FEATURE_INVARIANT_TSC 22
 #define FEATURE_MSR_IA32_ARCH_CAPABILITIES 23
 #define FEATURE_IPI_HYPERCALL 24
+#define FEATURE_WBNOINVD_INSTRUCTION 25
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -75,5 +76,6 @@ extern int test_rdseed_instruction();
 extern int test_invariant_tsc();
 extern int test_msr_ia32_arch_capabilities();
 extern int test_ipi_hypercall();
+extern int test_wbnoinvd_instruction();
 
 #endif /* features.h */

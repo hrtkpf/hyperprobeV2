@@ -55,6 +55,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_INVARIANT_TSC]         = test_invariant_tsc,
         [FEATURE_MSR_IA32_ARCH_CAPABILITIES] = test_msr_ia32_arch_capabilities,
         [FEATURE_IPI_HYPERCALL]         = test_ipi_hypercall,
+        [FEATURE_WBNOINVD_INSTRUCTION]  = test_wbnoinvd_instruction,
 };
 
 static const int kvm_max_feature_testers =
@@ -87,6 +88,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_INVARIANT_TSC]         = 316,
         [FEATURE_MSR_IA32_ARCH_CAPABILITIES] = 417,
         [FEATURE_IPI_HYPERCALL]         = 419,
+        [FEATURE_WBNOINVD_INSTRUCTION]  = 421,
 };
 
 static int (*const kvm_bug_testers[])() = {
