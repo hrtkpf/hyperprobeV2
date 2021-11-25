@@ -206,7 +206,12 @@ int main() {
 
         if (ifeature == 1) {
             DPRINTF("ifeature is 1 while i=%d\n", i);
-            vmin = kvm_feature_start[i - 1];
+
+            int version = kvm_feature_start[i - 1];
+
+            // only update vmin if it actually narrows down the possible versions
+            if (version > vmin) vmin = version;
+
             break;
         } else {
             // If a non-configurable feature is checked and not detected, it is not implemented.
@@ -228,7 +233,8 @@ int main() {
         ibug = kvm_bug_testers[i]();
 
         if (ibug == 1) {
-            vmax = kvm_bug_end[i] - 1;
+            int version = kvm_bug_end[i] - 1;
+            if (version < vmax) vmax = version;
 //			break;
         }
     }
