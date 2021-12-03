@@ -50,8 +50,6 @@
 
 #define MSR_IA32_APICBASE            0x0000001b    // Reserve bits of this register is not writable since kernel 3.14.
 
-#define MSR_IA32_ARCH_CAPABILITIES 0x10a    // not readable until kernel 4.19 (MSR introduced in 4.17)
-
 /* PMUv2 related MSR */
 /* Intel Core-based CPU performance counters */
 #define MSR_CORE_PERF_FIXED_CTR0        0x00000309

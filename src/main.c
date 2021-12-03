@@ -126,13 +126,11 @@ static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = test_msr_ia32_vmx_entry_ctls,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = test_msr_ia32_feature_control,
         [BUG_MSR_IA32_APICBASE]        = test_msr_ia32_apicbase,
-        [BUG_MSR_IA32_ARCH_CAPABILITIES] = test_msr_ia32_arch_capabilities_readable,
 };
 
 static const int kvm_max_bug_testers =
         ARRAY_SIZE(kvm_bug_testers);
 
-// currently unused
 static int const kvm_bug_start[] = {
         [BUG_MSR_IA32_MCG_STATUS]    = 20,
         [BUG_MSR_IA32_EBL_CR_POWERON]    = 20,
@@ -157,7 +155,6 @@ static int const kvm_bug_start[] = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = 301,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = 301,
         [BUG_MSR_IA32_APICBASE]        = 32,
-        [BUG_MSR_IA32_ARCH_CAPABILITIES] = 417,
 };
 
 static int const kvm_bug_end[] = {
@@ -184,7 +181,6 @@ static int const kvm_bug_end[] = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = 310,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = 312,
         [BUG_MSR_IA32_APICBASE]        = 314,
-        [BUG_MSR_IA32_ARCH_CAPABILITIES] = 419,
 };
 
 int main() {
