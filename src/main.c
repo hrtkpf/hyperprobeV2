@@ -97,7 +97,6 @@ static int const kvm_feature_start[] = {
 
 // Non-configurable features are always present if implemented and cannot be deactivated by the user
 static int const kvm_features_non_configurable[] = {
-        FEATURE_MSR_IA32_ARCH_CAPABILITIES,
 };
 
 static int const kvm_features_non_configurable_count = ARRAY_SIZE(kvm_features_non_configurable);
