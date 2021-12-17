@@ -75,6 +75,8 @@
 /* MSR used to read the per-partition time reference counter */
 #define HV_X64_MSR_TIME_REF_COUNT    0x40000020
 
+#define HV_X64_MSR_TSC_EMULATION_STATUS 0x40000108
+
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
 
 void wrmsr_on_cpu(uint32_t reg, int cpu, uint64_t data);

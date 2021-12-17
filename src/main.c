@@ -127,6 +127,7 @@ static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = test_msr_ia32_vmx_entry_ctls,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = test_msr_ia32_feature_control,
         [BUG_MSR_IA32_APICBASE]        = test_msr_ia32_apicbase,
+        [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = test_hv_x64_msr_tsc_emulation_status,
 };
 
 static const int kvm_max_bug_testers =
@@ -156,6 +157,7 @@ static int const kvm_bug_start[] = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = 301,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = 301,
         [BUG_MSR_IA32_APICBASE]        = 32,
+        [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = 417,
 };
 
 static int const kvm_bug_end[] = {
@@ -182,6 +184,7 @@ static int const kvm_bug_end[] = {
         [BUG_MSR_IA32_VMX_ENTRY_CTLS]    = 310,
         [BUG_MSR_IA32_FEATURE_CONTROL]    = 312,
         [BUG_MSR_IA32_APICBASE]        = 314,
+        [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = 513,
 };
 
 int main() {
