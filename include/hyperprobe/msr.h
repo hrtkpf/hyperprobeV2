@@ -66,6 +66,7 @@
 #define MSR_KVM_SYSTEM_TIME_NEW        0x4b564d01
 #define MSR_KVM_ASYNC_PF_EN        0x4b564d02
 #define MSR_KVM_STEAL_TIME        0x4b564d03
+#define MSR_KVM_ASYNC_PF_INT 0x4b564d06
 #define HV_X64_MSR_APIC_ASSIST_PAGE     0x40000073
 #define MSR_P6_PERFCTR0            0x000000c1    // Used for detecting pmuv2
 #define MSR_KVM_PV_EOI_EN        0x4b564d04    // Used for detecting paravirtualized EOI enable.

@@ -52,6 +52,7 @@
 #define FEATURE_IPI_HYPERCALL 26
 #define FEATURE_WBNOINVD_INSTRUCTION 27
 #define FEATURE_SCHED_YIELD_HYPERCALL 28
+#define FEATURE_ASYNC_PF_INT 29
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -83,5 +84,6 @@ extern int test_msr_ia32_arch_capabilities();
 extern int test_ipi_hypercall();
 extern int test_wbnoinvd_instruction();
 extern int test_sched_yield_hypercall();
+extern int test_async_pf_int();
 
 #endif /* features.h */
