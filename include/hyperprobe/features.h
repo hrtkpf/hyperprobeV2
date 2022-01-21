@@ -47,14 +47,15 @@
 #define FEATURE_RDSEED_INSTRUCTION 21
 #define FEATURE_INVARIANT_TSC 22
 #define FEATURE_ARAT 23
-#define FEATURE_UMIP 24
-#define FEATURE_MSR_IA32_ARCH_CAPABILITIES 25
-#define FEATURE_IPI_HYPERCALL 26
-#define FEATURE_WBNOINVD_INSTRUCTION 27
-#define FEATURE_MSR_IA32_POWER_CTL_INTEL 28
-#define FEATURE_MSR_IA32_POWER_CTL 29
-#define FEATURE_SCHED_YIELD_HYPERCALL 30
-#define FEATURE_ASYNC_PF_INT 31
+#define FEATURE_HV_X64_MSR_RESET 24
+#define FEATURE_UMIP 25
+#define FEATURE_MSR_IA32_ARCH_CAPABILITIES 26
+#define FEATURE_IPI_HYPERCALL 27
+#define FEATURE_WBNOINVD_INSTRUCTION 28
+#define FEATURE_MSR_IA32_POWER_CTL_INTEL 29
+#define FEATURE_MSR_IA32_POWER_CTL 30
+#define FEATURE_SCHED_YIELD_HYPERCALL 31
+#define FEATURE_ASYNC_PF_INT 32
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -81,6 +82,7 @@ extern int test_hv_time_ref_count();
 extern int test_rdseed_instruction();
 extern int test_invariant_tsc();
 extern int test_arat();
+extern int test_hv_x64_msr_reset();
 extern int test_umip();
 extern int test_msr_ia32_arch_capabilities();
 extern int test_ipi_hypercall();
