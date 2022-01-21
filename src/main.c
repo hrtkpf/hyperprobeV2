@@ -58,6 +58,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_MSR_IA32_ARCH_CAPABILITIES] = test_msr_ia32_arch_capabilities,
         [FEATURE_IPI_HYPERCALL]         = test_ipi_hypercall,
         [FEATURE_WBNOINVD_INSTRUCTION]  = test_wbnoinvd_instruction,
+        [FEATURE_MSR_IA32_POWER_CTL_INTEL] = test_msr_ia32_power_ctl_intel,
         [FEATURE_SCHED_YIELD_HYPERCALL] = test_sched_yield_hypercall,
         [FEATURE_ASYNC_PF_INT]          = test_async_pf_int,
 };
@@ -95,12 +96,14 @@ static int const kvm_feature_start[] = {
         [FEATURE_MSR_IA32_ARCH_CAPABILITIES] = 417,
         [FEATURE_IPI_HYPERCALL]         = 419,
         [FEATURE_WBNOINVD_INSTRUCTION]  = 421,
+        [FEATURE_MSR_IA32_POWER_CTL_INTEL] = 502,
         [FEATURE_SCHED_YIELD_HYPERCALL] = 503,
         [FEATURE_ASYNC_PF_INT]          = 508,
 };
 
 // Non-configurable features are always present if implemented and cannot be deactivated by the user
 static int const kvm_features_non_configurable[] = {
+        FEATURE_MSR_IA32_POWER_CTL_INTEL,
 };
 
 static int const kvm_features_non_configurable_count = ARRAY_SIZE(kvm_features_non_configurable);

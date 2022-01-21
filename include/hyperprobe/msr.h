@@ -27,6 +27,7 @@
 #define MSR_IA32_MCG_CTL        0x0000017b
 #define MSR_IA32_PERF_STATUS        0x00000198
 #define MSR_IA32_MC0_MISC        0x00000403
+#define MSR_IA32_POWER_CTL 0x000001fc
 #define MSR_VM_HSAVE_PA            0xc0010117
 #define MSR_K7_EVNTSEL0            0xc0010000
 
