@@ -218,7 +218,7 @@ int main() {
             if (version > vmin) vmin = version;
 
             break;
-        } else {
+        } else if(ifeature == 0) {
             // If a non-configurable feature is checked and not detected, it is not implemented.
             // From that, we can assume the maximal hypervisor version.
             //
