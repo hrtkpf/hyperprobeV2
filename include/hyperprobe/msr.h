@@ -78,6 +78,7 @@
 #define HV_X64_MSR_TIME_REF_COUNT    0x40000020
 
 #define HV_X64_MSR_RESET 0x40000003
+#define HV_X64_MSR_TSC_FREQUENCY 0x40000022
 #define HV_X64_MSR_TSC_EMULATION_STATUS 0x40000108
 
 uint64_t rdmsr_on_cpu(uint32_t reg, int cpu);
