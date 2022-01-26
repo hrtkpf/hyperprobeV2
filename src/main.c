@@ -215,13 +215,14 @@ int main() {
     DPRINTF("===Starting Feature Test!===\n");
     for (i = kvm_max_feature_testers; i > 0; i--) {
         DPRINTF("==============================\n");
-        ifeature = kvm_feature_testers[i - 1]();
+        int current_feature = i - 1;
+        ifeature = kvm_feature_testers[current_feature]();
         DPRINTF("ifeature is %d\n", ifeature);
 
         if (ifeature == 1) {
             DPRINTF("ifeature is 1 while i=%d\n", i);
 
-            int version = kvm_feature_start[i - 1];
+            int version = kvm_feature_start[current_feature];
 
             // only update vmin if it actually narrows down the possible versions
             if (version > vmin) vmin = version;
@@ -233,10 +234,23 @@ int main() {
             //
             // Check if array of non-configurable features contains the currently checked feature
             for(int j = 0; j < kvm_features_non_configurable_count; j++) {
-                if(kvm_features_non_configurable[j] == (i - 1)) {
+                if(kvm_features_non_configurable[j] == current_feature) {
                     DPRINTF("Non-configurable feature is not present, assuming max version\n");
-                    vmax = kvm_feature_start[i - 1] - 1;
+                    vmax = kvm_feature_start[current_feature] - 1;
                 }
+            }
+
+            // Special case for synthetic Hyper-V MSRs:
+            // Since 5.12, Hyper-V MSRs cannot be read/written unless Hyper-V Enlightenments are activated in KVM,
+            // decreasing the chance to detect such MSRs. Therefore, we cannot treat those features as non-configurable
+            // in general because they could be implemented, although not detected.
+            // However, if we know that we are running on KVM < 5.12, that restriction is not present.
+            // In that case, we can treat features based on Hyper-V MSRs as non-configurable.
+            if(vmax < 512 && (current_feature == FEATURE_HV_X64_MSR_REENLIGHTENMENT_CONTROL ||
+                               current_feature == FEATURE_HV_X64_MSR_TSC_FREQUENCY ||
+                               current_feature == FEATURE_HV_X64_MSR_RESET)){
+                DPRINTF("Non-configurable feature based on Hyper-V MSR is not present while vmax < 5.12, assuming max version\n");
+                vmax = kvm_feature_start[current_feature] - 1;
             }
         }
     }
