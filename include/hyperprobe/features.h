@@ -49,8 +49,8 @@
 #define FEATURE_ARAT 23
 #define FEATURE_HV_X64_MSR_RESET 24
 #define FEATURE_HV_X64_MSR_TSC_FREQUENCY 25
-#define FEATURE_UMIP 26
-#define FEATURE_MSR_IA32_ARCH_CAPABILITIES 27
+#define FEATURE_MSR_IA32_ARCH_CAPABILITIES 26
+#define FEATURE_UMIP 27
 #define FEATURE_HV_X64_MSR_REENLIGHTENMENT_CONTROL 28
 #define FEATURE_IPI_HYPERCALL 29
 #define FEATURE_WBNOINVD_INSTRUCTION 30
@@ -86,8 +86,8 @@ extern int test_invariant_tsc();
 extern int test_arat();
 extern int test_hv_x64_msr_reset();
 extern int test_hv_x64_msr_tsc_frequency();
-extern int test_umip();
 extern int test_msr_ia32_arch_capabilities();
+extern int test_umip();
 extern int test_hv_x64_msr_reenlightenment_control();
 extern int test_ipi_hypercall();
 extern int test_wbnoinvd_instruction();
