@@ -34,6 +34,7 @@
 
 #define MSR_IA32_MC0_CTL            0x00000400    // Clear bit 10 of this register is not allowed until 2.6.34
 #define MSR_K7_HWCR                     0xc0010015    // Writing 0x100 to it is not supported until kernel 2.6.35
+#define MSR_K8_TSEG_ADDR 0xc0010112
 // Writing 0x8 to it is not supported until kernel 3.4
 #define MSR_EBC_FREQUENCY_ID            0x0000002c    // Not readable until kernel 2.6.37
 #define MSR_IA32_BBL_CR_CTL3            0x0000011e    // Not readable until kernel 2.6.39
