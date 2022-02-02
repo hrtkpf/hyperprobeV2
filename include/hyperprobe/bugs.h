@@ -43,7 +43,8 @@
 #define BUG_MSR_IA32_VMX_ENTRY_CTLS    17
 #define BUG_MSR_IA32_FEATURE_CONTROL    18
 #define BUG_MSR_IA32_APICBASE        19
-#define BUG_HV_X64_MSR_TSC_EMULATION_STATUS 20
+#define BUG_MSR_AMD64_DC_CFG 20
+#define BUG_HV_X64_MSR_TSC_EMULATION_STATUS 21
 
 extern int test_msr_ia32_mcg_status();
 extern int test_msr_ia32_ebl_cr_poweron();
@@ -68,6 +69,7 @@ extern int test_msr_ia32_vmx_entry_ctls();
 //extern int test_unusable_present();
 extern int test_msr_ia32_feature_control();
 extern int test_msr_ia32_apicbase();
+extern int test_msr_amd64_dc_cfg();
 extern int test_hv_x64_msr_tsc_emulation_status();
 
 #endif /* bugs.h */
