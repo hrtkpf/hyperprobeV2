@@ -54,6 +54,7 @@ static int (*const kvm_feature_testers[])() = {
         [FEATURE_RDSEED_INSTRUCTION]    = test_rdseed_instruction,
         [FEATURE_INVARIANT_TSC]         = test_invariant_tsc,
         [FEATURE_ARAT]                  = test_arat,
+        [FEATURE_HV_X64_MSR_CRASH_CTL]  = test_hv_x64_msr_crash_ctl,
         [FEATURE_HV_X64_MSR_RESET]      = test_hv_x64_msr_reset,
         [FEATURE_HV_X64_MSR_TSC_FREQUENCY] = test_hv_x64_msr_tsc_frequency,
         [FEATURE_UMIP]                  = test_umip,
@@ -96,6 +97,7 @@ static int const kvm_feature_start[] = {
         [FEATURE_RDSEED_INSTRUCTION]    = 315,
         [FEATURE_INVARIANT_TSC]         = 316,
         [FEATURE_ARAT]                  = 402,
+        [FEATURE_HV_X64_MSR_CRASH_CTL]  = 403,
         [FEATURE_HV_X64_MSR_RESET]      = 404,
         [FEATURE_HV_X64_MSR_TSC_FREQUENCY] = 414,
         [FEATURE_MSR_IA32_ARCH_CAPABILITIES] = 415,  // 4.15.2
@@ -257,7 +259,8 @@ int main() {
             // In that case, we can treat features based on Hyper-V MSRs as non-configurable.
             if(vmax < 512 && (current_feature == FEATURE_HV_X64_MSR_REENLIGHTENMENT_CONTROL ||
                                current_feature == FEATURE_HV_X64_MSR_TSC_FREQUENCY ||
-                               current_feature == FEATURE_HV_X64_MSR_RESET)){
+                               current_feature == FEATURE_HV_X64_MSR_RESET ||
+                               current_feature == FEATURE_HV_X64_MSR_CRASH_CTL)){
                 DPRINTF("Non-configurable feature based on Hyper-V MSR is not present while vmax < 5.12, assuming max version\n");
                 vmax = kvm_feature_start[current_feature] - 1;
             }
