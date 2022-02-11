@@ -146,6 +146,7 @@ static int (*const kvm_bug_testers[])() = {
         [BUG_MSR_K8_TSEG_ADDR] = test_msr_k8_tseg_addr,
         [BUG_MSR_IA32_PERF_CTL] = test_msr_ia32_perf_ctl,
         [BUG_MSR_AMD64_DC_CFG] = test_msr_amd64_dc_cfg,
+        [BUG_MSR_IA32_ARCH_CAPABILITIES_AMD] = test_msr_ia32_arch_capabilities_amd,
         [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = test_hv_x64_msr_tsc_emulation_status,
 };
 
@@ -179,6 +180,7 @@ static int const kvm_bug_start[] = {
         [BUG_MSR_K8_TSEG_ADDR] = 20,
         [BUG_MSR_IA32_PERF_CTL] = 20,
         [BUG_MSR_AMD64_DC_CFG] = 20,
+        [BUG_MSR_IA32_ARCH_CAPABILITIES_AMD] = 417,
         [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = 417,
 };
 
@@ -209,6 +211,7 @@ static int const kvm_bug_end[] = {
         [BUG_MSR_K8_TSEG_ADDR] = 403,  // 4.2.4
         [BUG_MSR_IA32_PERF_CTL] = 407,
         [BUG_MSR_AMD64_DC_CFG] = 412,
+        [BUG_MSR_IA32_ARCH_CAPABILITIES_AMD] = 501,
         [BUG_HV_X64_MSR_TSC_EMULATION_STATUS] = 513,
 };
 

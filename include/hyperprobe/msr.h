@@ -22,6 +22,7 @@
 
 #include <inttypes.h>
 
+#define MSR_IA32_ARCH_CAPABILITIES 0x0000010a
 #define MSR_IA32_MCG_STATUS             0x0000017a
 #define MSR_IA32_EBL_CR_POWERON         0x0000002a
 #define MSR_IA32_MCG_CTL        0x0000017b
