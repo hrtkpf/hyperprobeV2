@@ -53,11 +53,10 @@
 #define FEATURE_UMIP 27
 #define FEATURE_HV_X64_MSR_REENLIGHTENMENT_CONTROL 28
 #define FEATURE_IPI_HYPERCALL 29
-#define FEATURE_WBNOINVD_INSTRUCTION 30
-#define FEATURE_MSR_IA32_POWER_CTL_INTEL 31
-#define FEATURE_MSR_IA32_POWER_CTL 32
-#define FEATURE_SCHED_YIELD_HYPERCALL 33
-#define FEATURE_ASYNC_PF_INT 34
+#define FEATURE_MSR_IA32_POWER_CTL_INTEL 30
+#define FEATURE_MSR_IA32_POWER_CTL 31
+#define FEATURE_SCHED_YIELD_HYPERCALL 32
+#define FEATURE_ASYNC_PF_INT 33
 
 extern int test_kvm_magic();
 extern int test_smp();
@@ -90,7 +89,6 @@ extern int test_msr_ia32_arch_capabilities();
 extern int test_umip();
 extern int test_hv_x64_msr_reenlightenment_control();
 extern int test_ipi_hypercall();
-extern int test_wbnoinvd_instruction();
 extern int test_msr_ia32_power_ctl_intel();
 extern int test_msr_ia32_power_ctl();
 extern int test_sched_yield_hypercall();
