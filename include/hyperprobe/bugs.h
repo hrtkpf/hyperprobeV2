@@ -41,13 +41,13 @@
 //#define BUG_VNC_CRASH			13
 //#define BUG_UNUSABLE_PRESENT 		14
 #define BUG_MSR_IA32_VMX_ENTRY_CTLS    17
-#define BUG_MSR_IA32_FEATURE_CONTROL    18
-#define BUG_MSR_IA32_APICBASE        19
-#define BUG_MSR_K8_TSEG_ADDR 20
-#define BUG_MSR_IA32_PERF_CTL 21
-#define BUG_MSR_AMD64_DC_CFG 22
-#define BUG_MSR_IA32_ARCH_CAPABILITIES_AMD 23
-#define BUG_HV_X64_MSR_TSC_EMULATION_STATUS 24
+//#define BUG_MSR_IA32_FEATURE_CONTROL    18
+#define BUG_MSR_IA32_APICBASE        18
+#define BUG_MSR_K8_TSEG_ADDR 19
+#define BUG_MSR_IA32_PERF_CTL 20
+#define BUG_MSR_AMD64_DC_CFG 21
+#define BUG_MSR_IA32_ARCH_CAPABILITIES_AMD 22
+#define BUG_HV_X64_MSR_TSC_EMULATION_STATUS 23
 
 extern int test_msr_ia32_mcg_status();
 extern int test_msr_ia32_ebl_cr_poweron();
@@ -70,7 +70,7 @@ extern int test_msr_amd64_bu_cfg2();
 //extern int test_vnc_crash();
 extern int test_msr_ia32_vmx_entry_ctls();
 //extern int test_unusable_present();
-extern int test_msr_ia32_feature_control();
+//extern int test_msr_ia32_feature_control();
 extern int test_msr_ia32_apicbase();
 extern int test_msr_k8_tseg_addr();
 extern int test_msr_ia32_perf_ctl();
